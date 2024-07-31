@@ -1,0 +1,284 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2024 Pavel Vondřička <pavel.vondricka@ff.cuni.cz>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; version 2
+# dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+import xml.sax
+import html
+import re
+
+wrapper_element_name = 'wrapper_root'
+
+class TaggedXMLContentHandler(xml.sax.ContentHandler):
+    """
+    SAX parser for extraction of vertical from a tagged XML file
+    """
+
+    def __init__(self, config, wrapper_tag=None):
+        xml.sax.ContentHandler.__init__(self)
+        # current token contents
+        self.token = None
+        # temporary buffer of open elements
+        self.openTagBuffer = []
+        # current whitespace buffer (relevant for glue)
+        self.whitespace = ''
+        # was last element a token? (relevant for glue)
+        self.last_was_token = False
+        # token counter (any use?)
+        self.tokencnt = 0
+        # settings from the configuration
+        self.strip_word_xml = not config.getboolean('keep_token_tags', False)
+        self.glue_element = config.get('glue', 'g') if not config.getboolean('no_glue', False) else None
+        self.attrnames = config.get('attributes').replace(',',' ').split()
+        self.token_element = config.get('token_element', 'w')
+        self.keep_empty = config.getboolean('keep_empty', False)
+        self.discard_empty = config.get('discard_empty', '').replace(',',' ').split()
+        self.discard_freetext = config.getboolean('discard_freetext')
+        self.exclude_elements = config.get('exclude_elements', '').replace(',',' ').split()
+        self.include_elements = config.get('include_elements', '').replace(',',' ').split()
+        self.wrapper_tag = wrapper_tag
+        # if no included elements configured, just extract everything (i.e. the whole root element) by default
+        self.include_scope = not len(self.include_elements)
+        # excluded elements may be nested, check correct level at the end
+        self.exclude_scope = 0
+        # regex for line breaks
+        self.lbre = re.compile(r"[\n\r]+")
+
+    def startElement(self, name, attrs):
+        # ignore wrapper tag
+        if name == self.wrapper_tag:
+            return
+        # scope of included/excluded elements starting?
+        if name in self.include_elements:
+            self.include_scope = True
+        if name in self.exclude_elements:
+            self.exclude_scope += 1
+        # ignore everything outside the scope of included elements
+        if self.exclude_scope > 0 or not self.include_scope:
+            return
+        
+        if name == self.token_element:
+            # print out openTagBuffer
+            self.output_tag_buffer()
+            # token level elements become tokens
+            self.tokencnt += 1
+            self.token = {}
+            self.token['word'] = ''
+            for (key, value) in attrs.items():
+                self.token[key] = value
+        else:
+            # all other elements are added to the tag buffer
+            contents = " " + " ".join([f'{a}="{html.escape(attrs.getValue(a))}"' for a in attrs.keys()]) if len(attrs) else ''
+            self.openTagBuffer.append((name,contents))
+            if not self.token:
+                self.last_was_token = False
+
+    def endElement(self, name):
+        # ignore wrapper tag
+        if name == self.wrapper_tag:
+            return
+        # ignore everything outside the scope of included elements
+        if self.exclude_scope > 0 or not self.include_scope:
+            # leaving the scope of excluded elements?
+            if name in self.exclude_elements:
+                self.exclude_scope -= 1
+            return
+        
+        if name in self.exclude_elements:
+            # excluded elements are ignored
+            pass
+        elif len(self.openTagBuffer) > 0:
+            # there are elements in the buffer of open elements
+            if not self.keep_empty and name == self.openTagBuffer[-1][0] \
+                and (len(self.discard_empty) == 0 or name in self.discard_empty):
+                # empty element to be ignored
+                self.openTagBuffer.pop()
+                return
+            else:
+                # print out openTagBuffer
+                self.output_tag_buffer(lastName=name)
+        elif name == self.token_element:
+            # print glue element?
+            if self.glue_element is not None and self.whitespace == '' and self.last_was_token:
+                print("<{0}/>".format(self.glue_element))
+            # print token
+            print(self.token['word'], end="")
+            attrcnt = 1
+            for attrname in self.attrnames:
+                if attrname in self.token:
+                    print("\t" + self.token[attrname], end="")
+                    attrcnt += 1
+                else:
+                    print("\t", end="")
+            nextattr = 'attr_' + str(attrcnt)
+            while nextattr in self.token:
+                print("\t" + self.token[nextattr], end="")
+                attrcnt += 1
+                nextattr = 'attr_' + str(attrcnt)
+            print()
+            self.token = None
+            self.whitespace = ''
+            self.last_was_token = True
+        else:
+            # some other element => print closing element tag
+            if self.token:
+                if not self.strip_word_xml:
+                    self.token['word'] += '</'+name+'>'
+            else:
+                print('</'+name+'>')
+                self.last_was_token = False
+        # Leaving scope of included elements?
+        if name in self.include_elements:
+            self.include_scope = False
+
+    def characters(self, contents):
+        # ignore everything outside the scope of included elements
+        if self.exclude_scope > 0 or not self.include_scope:
+            return
+        
+        if self.token or (not self.discard_freetext and contents.strip()):
+            # print out openTagBuffer
+            self.output_tag_buffer()
+
+        if self.token:
+            # add contents to current token
+            self.token['word'] += contents
+        elif not self.discard_freetext and contents.strip():
+            # if non-token (free) text contents allowed, output it as one single line "token"
+            print(self.lbre.sub(" ", contents.strip()))
+        elif self.glue_element is not None:
+            # just whitespace: relevant for glue insertion
+            self.whitespace += contents
+
+    def output_tag_buffer(self, lastName=None):
+        # print out openTagBuffer
+        for i, (tname, tcontents) in enumerate(self.openTagBuffer):
+            if lastName is not None and i == len(self.openTagBuffer)-1:
+                # the last element (lastName) is empty and shall be closed immediately
+                if tname != lastName:
+                    # this should never happen!
+                    raise Exception(f"Unexpected situation: End of '{lastName}', but last open element was '{tname}'.")
+                tag = '<'+tname+tcontents+'/>'
+            else:
+                tag = '<'+tname+tcontents+'>'
+            if self.token:
+                # inside a token: append to its string contents ('word')
+                self.token['word'] += tag
+            else:
+                # just print out
+                print(tag)
+        self.openTagBuffer = []
+
+
+if __name__ == "__main__":
+    """
+    Convert tagged XML to VRT
+    =========================
+    
+    Input: fully tagged input XML file name
+    
+    Output: STDOUT.
+    
+    Options: '-c <filename>' Read additional configuration. By default, the file 'vrt2standoff.ini' is
+             searched and loaded both from the directory with the scripts and the current working dir.
+        
+             '-p <profile>' Use 'profile' section from the configuration. If not provided, the
+             section 'DEFAULT' will be used as fallback or the 'profile' specified in this section.
+        
+             '-a <list_of_attributes>' comma separated list of positional attribute names in the vertical
+             file (no spaces!). The very first column is always the original token string itself, 
+             the attribute names are thus applied from the second column on.
+             If (additional) attributes are provided by the token elements and they are named in the 
+             corresponding order as 'attr_N', they will be automatically output as well.
+             Config setting: 'attributes' (may also be separated by spaces, commas, linebreaks or
+             a combination thereof)
+        
+             '-kt' Keep XML tags within tokens. By default they are removed.
+             Config setting: 'keep_token_tags'.
+             
+             '-ke' Keep empty elements in the vertical output. By default they are removed.
+             Config setting: 'keep_empty'.
+
+             '-df' Discard free text contents (non-tokenized text contents). By default, any free text contents 
+             are extracted as fragments in the form of single line "tokens", if found in the structure.
+             Config setting: 'discard_freetext'
+        
+             '-g <element_name>' name of glue element to mark tokens not separated by space.
+             Default: 'g'.
+             Config setting: 'glue'.
+              
+             '-ng' Do NOT insert glue elements.
+             Config setting: 'no_glue'.
+        
+             '-t <element_name>' Specify token element name. 
+             Default: 'w'.
+             Config setting: 'token_element'.
+
+             '-i <element_names>' Comma separated list of (sub)element names to be extracted into the output vertical
+             (no spaces!). By default the whole root element of the XML document will be extracted.
+             Config setting: 'include_elements' (may also be separated by spaces, commas, linebreaks or
+             a combination thereof)
+             
+             '-e <element_names>' Comma separated list of element names to be excluded from the output vertical
+             (no spaces!).
+             Config setting: 'exclude_elements' (may also be separated by spaces, commas, linebreaks or
+             a combination thereof)
+        
+             '-F' Input file is a XML fragment (needing a wrapping root element).
+        
+    """
+    
+    import os
+    import argparse
+    import configparser
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="Convert tagged XML file into vertical format")
+    parser.add_argument("infile", help="input file name")
+    parser.add_argument("-c", "--config", help="additional config file", type=str)
+    parser.add_argument("-p", "--profile", help="config profile to use", type=str, default='DEFAULT')
+    parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
+    parser.add_argument("-t", "--token-element", help="name of token element", type=str)
+    parser.add_argument("-i", "--include-elements", help="(sub)elements to extract (default: document root)", type=str)
+    parser.add_argument("-e", "--exclude-elements", help="elements to exclude from the extraction", type=str)
+    parser.add_argument("-kt", "--keep-token-tags", help="keep tags within tokens", action="store_true")
+    parser.add_argument("-ke", "--keep-empty", help="keep empty elements", action="store_true")
+    parser.add_argument("-df", "--discard-freetext", help="discard free (non-token) text contents", action="store_true")
+    parser.add_argument("-ng", "--no-glue", help="do not insert glue element (indicating missing space between tokens)", action="store_true")
+    parser.add_argument("-g", "--glue", help="name of the glue element (default: 'g')", type=str)
+    parser.add_argument("-F", "--fragment", help="input file is a XML fragment (needing a wrapping root element)", action="store_true")
+    args = parser.parse_args()
+
+    # read configuration from files
+    scriptpath = path = os.path.dirname(os.path.realpath(__file__))
+    curpath = os.getcwd()
+    profiles = configparser.ConfigParser()
+    profiles.read([scriptpath+'/ann2standoff.ini', curpath+'/ann2standoff.ini'])
+    if args.config:
+        read = profiles.read(args.config)
+        if read != [args.config]:
+            raise Exception("Failed reading configuration file: '{0}'".format(args.config))
+    
+    # evt. update/override currently selected profile configuration with values from command-line arguments
+    profiles.read_dict({args.profile: {k: v for k, v in vars(args).items() if v is not None}})
+    config = profiles[args.profile]
+    
+    # input file
+    infile = Path(config.get('infile'))
+
+    with infile.open(encoding='utf-8') as source:
+        if config.getboolean('fragment', False):
+            source = "<"+wrapper_element_name+">"+source.read()+"</"+wrapper_element_name+">"
+            xml.sax.parseString(source, TaggedXMLContentHandler(config, wrapper_tag=wrapper_element_name))
+        else:
+            xml.sax.parse(source, TaggedXMLContentHandler(config))

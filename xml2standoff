@@ -1,0 +1,297 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2024 Pavel Vondřička <pavel.vondricka@ff.cuni.cz>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; version 2
+# dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+import html
+import re
+from io import StringIO
+
+
+def scan_to(text, ptr, mark):
+    """
+    Scan text up to the given mark and return preceding contents and the mark
+
+    Parameters:
+    -----------
+
+    text : str
+        Text string
+    ptr : integer
+        Pointer to the current character position in the text (used as scan start position)
+    mark: str
+        (Sub)string to seek until
+
+    Returns:
+    --------
+
+    segment : str
+        Text segment (str) from start (original ptr position) to the start of the searched *mark*
+    mark : str
+        The found mark (str) or empty string if not found until EOF
+    ptr : integer
+        Pointer to the last position (the end of the found *mark*)   
+    """
+    start = ptr
+    while ptr < len(text) and text[ptr:ptr+len(mark)] != mark:
+        ptr += 1
+    if text[ptr:ptr+len(mark)] != mark:
+        mark = ''
+    pre = ptr
+    ptr += len(mark)
+    return text[start:pre], mark, ptr
+
+
+def text_continues(text, ptr, str):
+    """
+    Test whether text contents at position `ptr` continues with the given string
+
+    Parameters:
+    -----------
+
+    text : str
+        text string
+    ptr : integer
+        Pointer to the current character position in the text (to test)
+    str : str
+        String to test for
+
+    Returns:
+    --------
+
+    result : boolean
+        Match or not
+    """
+    return text[ptr:ptr+len(str)] == str
+
+
+def split_xml(text, txtelements=None, excludes=None, keep_linebreaks=False):
+    """
+    Split XML into plaintext and stand-off XML markup description
+
+    Parameters:
+    -----------
+
+    text : str
+        XML input as text string
+
+    Returns:
+    --------
+
+    plaintext : str
+        Extracted plaintext contents (str) stripped of all XML mark-up
+    markup : list of dict
+        XML markup description in the form of list of XML element descriptions:
+        - name (str) : name of the XML element
+        - contents (str) : other contents of the XML element tag (attributes with values, XML comment contents etc.)
+        - start (integer) : character position in the plain text where the XML element's span starts
+        - end (integer) : character position in the plain text where the XML element's span ends
+        - level (integher) : level of nesting (depth) in the XML tree
+        - order (integer) : order of element in the XML tree
+        - text (str): (optional) text contents at the beginning of the element (if not a text element, i.e. it has not been extracted into plain text file)
+        - tail (str): (optional) text contents at the end of the element (have not been extracted into plain text file)
+        - skip (int): (optional) skip following plain text contents at the start of the element (provisional line break) 
+        - cut (int): (optional) cut plain text contents from the end of the element (provisional line break)
+    """
+
+    # buffer for the extracted plaintext
+    plaintext = StringIO()
+    # character counter for the extracted plain text contents
+    charcnt = 0
+    # heap of open element spans
+    heap = []
+    # buffer for the XML mark-up descxription
+    markup = []
+    # XML element level and order counters
+    slevel = 0
+    order = 0
+    # pointer to the current character position in the source XML string
+    ptr = 0
+    # content aware extraction:
+    # depth within text elements (may be nested)
+    txtel_depth = 0
+    # depth within excluded elements (may be nested)
+    exclude_depth = 0
+    # tuple with a current mark-up element description and its attribute to keep the text which shall not be extracted
+    text_store = None
+    # shall we remove line breaks within text elements?
+    normalize_linebreaks = txtelements is not None and not keep_linebreaks
+
+    lbre = re.compile(r"[\n\r]+")
+
+    while True:
+        # scan to the beginning of next XML mark-up and add the contents to the plain text buffer
+        (contents, mark, ptr) = scan_to(text, ptr, "<")
+        contents = html.unescape(contents)
+
+        if text_store is None:
+            # default: extract text contents into the output plain text file
+            if normalize_linebreaks:
+                contents = lbre.sub(" ", contents)
+            charcnt += len(contents)
+            plaintext.write(contents)
+        else:
+            # mark-up element description to store/keep contents within
+            text_store[0][text_store[1]] = contents
+            text_store = None
+
+        if len(mark):
+
+            # treat XML elements, comments and processing instructions and their tag contents
+            if text_continues(text, ptr, '?'):
+                # processing instruction
+                (element, mark, ptr) = scan_to(text, ptr, "?>")
+                (ename, _, econtents) = element.partition(" ")
+                econtents += '?'
+            elif text_continues(text, ptr, '!--'):
+                # XML comment
+                (element, mark, ptr) = scan_to(text, ptr, "-->")
+                ename = '!--'
+                econtents = element[3:] + '--'
+            else:
+                # XML element
+                (element, mark, ptr) = scan_to(text, ptr, ">")
+                (ename, _, econtents) = element.partition(" ")
+            
+            # store the mark-up data into the mark-up buffer
+            if ename.startswith("/"):
+                # end tag: add ending position and append the element span description into the mark-up buffer
+                ename = ename.lstrip("/")
+                last = heap.pop()
+                slevel -= 1
+                if ename != last['name']:
+                    raise Exception("XML error at char {0}: Element {1} not closed before end of {2}."
+                                    .format(charcnt, last['name'], ename))
+                last['end'] = charcnt
+                markup.append(last)
+                # is the ending element a text element or an excluded element?
+                if txtelements is not None:
+                    if ename in txtelements:
+                        txtel_depth -= 1
+                        if exclude_depth == 0:
+                            # insert provisional line break into the plain text that will be cut in the reverse conversion (unless within excluded scope)
+                            charcnt += 1
+                            plaintext.write("\n")
+                            last['cut'] = 1
+                            last['end'] = charcnt
+                    # outside the scope of text elements: do not extract following text anymore, but keep it within the mark-up description
+                    if txtel_depth == 0:
+                        text_store = (last, 'tail')
+                if excludes is not None:
+                    if ename in excludes:
+                        exclude_depth -= 1
+                    # still within the scope of excluded elements: no text extraction
+                    if exclude_depth > 0:
+                        text_store = (last, 'tail')
+
+            else:
+                # start tag, empty element, comment or processing instruction
+                order += 1
+                if ename.startswith("?") or ename.startswith("!") or ename.endswith("/") or econtents.endswith("/"):
+                    # zero-span: empty tags, comments and proc. instructions have no end tag and can be inserted into the buffer immediately
+                    eldesc = {"name": ename, "contents": econtents,
+                              "start": charcnt, "end": charcnt, "level": slevel, 'order': order}
+                    markup.append(eldesc)
+                    if (txtelements is not None and txtel_depth == 0) or (excludes is not None and exclude_depth > 0):
+                        text_store = (eldesc, 'tail')
+                else:
+                    # pair start tags: add description to the heap to be inserted into the buffer when a matching end tag is found 
+                    eldesc = {"name": ename, "contents": econtents,
+                              "start": charcnt, "level": slevel, 'order': order}
+                    # if included elements are defined, check whether we shall extract the text contents or store/keep them within the mark-up description
+                    if txtelements is not None:
+                        if ename in txtelements:
+                            txtel_depth  += 1
+                            text_store = None
+                            if exclude_depth == 0:
+                                # insert provisional line break into the plain text that will be skipped in the reverse conversion
+                                charcnt += 1
+                                plaintext.write("\n")
+                                eldesc['skip'] = 1
+                        elif txtel_depth == 0:
+                            text_store = (eldesc, 'text')
+                    # if excluded elements are defined, keep text contents within their description and do not extract them
+                    if excludes is not None:
+                        if ename in excludes:
+                            exclude_depth += 1
+                        if exclude_depth > 0:
+                            text_store = (eldesc, 'text')
+                    heap.append(eldesc)
+                    slevel += 1
+        if not len(mark):
+            # end of XML contents: exit
+            break
+    return plaintext.getvalue(), markup
+
+
+if __name__ == '__main__':
+    """
+    Split XML into plain text and stand-off XML mark-up description
+    ===============================================================
+    
+    Input: input XML file name (UTF-8 encoding)
+        (Only XML elements (with atrributes), comments and processing instructions are treated. Anything else is ignored.)
+    
+    Output: creates two new files with the same base name as the input file, but with the extension `.txt` and `.json`
+    
+    Options: '-t <text_elements>' List of comma separated names of basic text elements (e.g. paragraph lebvel elements). Turns
+             on content aware extraction where only text contents from the specified elements is extracted into the plain text
+             output. Provisional line breaks are added to the plain text output between the text fragments, which will be removed 
+             later by `standoff2xml`. The text elements may also be nested within each other.
+             
+             '-kl' Keep line breaks within the specified text elements. By default, line breaks within the text elements are
+             (irreversibly) converted to spaces. (This option has thus no effect if `-t` is not used!)
+             
+             '-e <element_names>' List of comma separated names of elements to ignore/skip when extracting plain text contents.
+             Anything within their scope is ignored, even nested elements of the type specified by `-t`.
+    """
+
+    import sys
+    import argparse
+    import json
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="Split XML into plain text and stand-off XML mark-up")
+    parser.add_argument("infile", help="input XML file name (UTF-8)")
+    parser.add_argument("-t", "--text-elements", help="text elements to extract contents from", type=str)
+    parser.add_argument("-e", "--exclude-elements", help="elements to ignore", type=str)
+    parser.add_argument("-kl", "--keep-linebreaks", help="keep line breaks within text elements", action="store_true")
+    args = parser.parse_args()
+
+    if args.keep_linebreaks and args.text_elements is None:
+        sys.stderr.write("WARNING: Option '-kl/--keep-linebreaks' has no effect unless text elements are specified.\n")
+        exit(1)
+
+    xmlin = Path(args.infile)
+    txtout = xmlin.with_suffix('.txt')
+    jsonout = xmlin.with_suffix('.json')
+
+    includes = args.text_elements.split(',') if args.text_elements else None
+    excludes = args.exclude_elements.split(',') if args.exclude_elements else None
+
+    # read the whole input file
+    with xmlin.open(encoding='utf-8') as infile:
+        text = infile.read()
+
+    # generate separated plain text contents and mark-up description
+    plaintext, markup = split_xml(text, includes, excludes, args.keep_linebreaks)
+
+    # write out plain text contents
+    with txtout.open('w', encoding='utf-8') as txtfile:
+        txtfile.write(plaintext)
+        txtfile.close()
+
+    # write out XML mark-up description as JSON
+    with jsonout.open('w', encoding='utf-8') as jsonfile:
+        json.dump(markup, jsonfile, indent=0)
+        jsonfile.close()

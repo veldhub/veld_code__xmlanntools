@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+# Copyright (c) 2023 Václav Horký <Vaclav.Horky@ff.cuni.cz>
+# Copyright (c) 2024 Pavel Vondřička <pavel.vondricka@ff.cuni.cz>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; version 2
+# dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+import http
+import requests
+
+# LINDAT service
+UDPIPE_API_URL = "http://lindat.mff.cuni.cz/services/udpipe/api/process"
+
+def udpipe_lindat(model, text, syn = True):
+    """
+    Send a text to UDPipe2 web service and return the result
+    
+    text : str
+        text to analyze
+    model : str
+        language model to apply
+    syn : bool
+        perform dependency parsing
+
+    See also:
+     * <http://lindat.mff.cuni.cz/services/udpipe/api-reference.php>
+     * <https://universaldependencies.org/format.html>
+     
+    """
+    
+    params = {
+        "model": model,
+        "data": text,
+        "tokenizer": "",
+        "tagger": "",
+    }
+    if syn:
+        params["parser"] = ""
+    response = requests.post(UDPIPE_API_URL, params)
+    if not response.ok:
+        error_type = (
+            "TAGGER NOT AVAILABLE: "
+            if response.status_code == http.HTTPStatus.SERVICE_UNAVAILABLE
+            else "TAGGING FAILED: "
+            )
+        raise Exception(error_type + str(response))
+    return response.json()["result"]
+
+
+if __name__ == '__main__':
+    """
+    Analyze text with UDPipe 2 (using LINDAT REST API)
+    
+    Input: STDIN by default
+    
+    Output: STDOUT
+    
+    Options: '-m <model>' Use the specified language model.
+             See http://ufal.mff.cuni.cz/udpipe/2/models for a list of currently available models)
+             
+             '-f <filename>' Read input from file instead of from STDIN.
+
+             '-b <number>' Specify batch size, i.e. number of lines to be send to the API at once.
+             The REST API has a limit for maximal request size, probably around 1.3MB.
+             Default: 1000
+             
+             '-v' Report progress to STDERR.
+    
+    """
+    import sys
+    import argparse
+    parser = argparse.ArgumentParser(description="Analyze text with UD-pipe")
+    parser.add_argument("-m", "--model", help="UD language model to use", type=str, default="czech-fictree-ud-2.6-200830")
+    parser.add_argument("-f", "--file", help="input file (default=STDIN)", type=str)
+    parser.add_argument("-b", "--batch", help="batch size in lines (default=1000)", type=int, default=1000)
+    parser.add_argument("-v", "--verbose", help="report progress", action="store_true")
+    args = parser.parse_args()
+    
+    buffer = []
+
+    def analyze(buffer):
+        analyze.counter += 1
+        if args.verbose:
+            sys.stderr.write(f"[{analyze.counter}] Sending {len(buffer)} lines to UD-pipe. ")
+            sys.stderr.flush()
+        print(udpipe_lindat(args.model, "\n".join(buffer)+"\n"))
+        if args.verbose:
+            sys.stderr.write(f"Analyzed.\n")
+
+    analyze.counter = 0
+
+    with open(args.file) if args.file else sys.stdin as infile:
+        for line in infile:
+            if len(buffer) >= args.batch:
+                analyze(buffer)
+                buffer.clear()
+            buffer.append(line)
+        analyze(buffer)

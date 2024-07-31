@@ -1,0 +1,344 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2024 Pavel Vondřička <pavel.vondricka@ff.cuni.cz>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; version 2
+# dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+import sys
+import html
+import re
+
+
+def apply_replacements(str, replacements):
+    """
+    Apply all replacements to the input string
+    
+    Parameters:
+    -----------
+    
+    str : str
+        input string
+    replacements : list of list/tuples with two strings
+        list of (match + replacement) pairs
+        
+    Returns:
+    --------
+    
+    str : str
+        output string
+    
+    """
+    for repl in replacements:
+        str = repl[0].sub(repl[1], str)
+    return str
+
+
+def ann2standoff(vrtann, reftext, config, replacements=[], matchlist=[]):
+    """
+    Convert annotation from vertical format to stand-off for the given reference text
+    
+    Parameters:
+    -----------
+    
+    vrtann : generator (iterable)
+        annotation in the vertical format (lines with TAB separated attributes; literal token in the first column)
+    reftext : string
+        reference (original) plain text
+    config : dict/ConfigParser
+        configuration options
+    replacements : list of list/tuples with two strings
+        list of (match + replacement) pairs
+    matchlist : dict of lists of strings
+        dict with token form as key and a list of its possible realizations in the reference text as value
+
+    Returns:
+    --------
+    
+    annotation : list of dict
+        simplified XML markup description in the form of list of XML element descriptions (see `xml2standoff`/`split_xml` for details)
+        
+    """
+    attrnames = config.get('attributes').replace(',',' ').split()
+    strip = " \t\r\n" if not config.getboolean('unicode_strip') else None
+    token_element = config.get('token_element', 'w')
+    sentence_element = config.get('sentence_element', 's')
+    linecnt = 0 
+    curpos = 0
+    annotation = []
+    sstart = -1
+    # each line in a vertical format corresponds to one annotated token in the reference text
+    for line in vrtann:
+        line = line.rstrip(strip)
+        linecnt += 1
+        if not len(line):
+            # empty line: sentence boundary
+            if 0 <= sstart < curpos:
+                s = {"name": sentence_element, "contents": "", "start": sstart, "end": curpos, "level": 1, 'order': linecnt}
+                annotation.append(s)
+                sstart = -1
+            continue
+        # process attributes
+        pattrs = line.split("\t")
+        word = pattrs[0]
+        attrcnt = 1
+        attrs = []
+        while len(pattrs) > attrcnt:
+            if attrcnt > len(attrnames):
+                attrname = 'attr_' + str(attrcnt)
+            else:
+                attrname = attrnames[attrcnt-1]
+            attr = attrname+'="'+html.escape(pattrs[attrcnt], quote=True)+'"'
+            attrs.append(attr)
+            attrcnt += 1
+        attrstr = " ".join(attrs)
+
+        # skip any whitespace between tokens and store it in "pre"
+        pre = ''
+        token = reftext.read(1)
+        while not len(token.strip(strip)):
+            pre += token
+            token = reftext.read(1)
+            if token == '':
+                raise Exception("Unexpected end of reference text file. Expecting token '{}'.".format(word))
+
+        # apply replacements/substitutions, if there are any
+        if len(replacements):
+            word = apply_replacements(word, replacements)
+
+        # try matches if there are any
+        if len(matchlist) and word in matchlist:
+            for match in matchlist[word]:
+                word = match
+                while len(match) > len(token):
+                    token += reftext.read(1)
+                if token == word or token.lower() == word.lower():
+                    break
+        else:
+            # read next token from the reference text
+            token += reftext.read(len(word)-1)
+        
+        # if the token provided by the annotation file does not exactly match the following text, raise Exception
+        # (change of case accepted)
+        if token != word and token.lower() != word.lower():
+            raise Exception("Token '{0}' not matching '{3}' at line {1}! Found text: {2}..."
+                            .format(word, linecnt, token+reftext.read(30), token))
+        curpos += len(pre)
+        wlen = len(word)
+        if sstart < 0:
+            sstart = curpos
+        token = {"name": token_element, "contents": attrstr, "start": curpos, "end": curpos+wlen, "level": 2, 'order': linecnt}
+        annotation.append(token)
+        curpos += wlen
+    # add/close final sentence
+    if 0 <= sstart < curpos:
+        linecnt += 1
+        s = {"name": sentence_element, "contents": "", "start": sstart, "end": curpos, "level": 1, 'order': linecnt}
+        annotation.append(s)
+    
+    # no more annotation available - anything else left in the source text?
+    token = reftext.read(1)
+    while token != '':
+        if len(token.strip(strip)):
+            sys.stderr.write("Warning: Missing annotation for source text: ")
+            token += reftext.read(100)
+            sys.stderr.write(token+"...\n")
+            break
+        token = reftext.read(1)
+    
+    return annotation
+
+def preprocess_none(input, config):
+    """
+    No preprocessing for common vertical format input
+    
+    (empty generator repeating lines read from the input file)
+    """
+    for line in input:
+        yield(line)
+
+def preprocess_conllu(input, config):
+    """
+    Preprocessing the CoNLL-U format: merge two-level tokenization into single tokens
+    
+    (generator of single general vertical lines also from the CoNLL-U two-level tokenization)
+    """
+    strip = " \t\r\n" if not config.getboolean('unicode_strip') else None
+    multitoken = re.compile("([0-9]+)\-([0-9]+)")
+    # create list of separators for all configured atrributes using either default or their specific separator if defined
+    default_sep = config.get('multi_separator', '|')
+    separators = [config.get(f'multi_separator_{name}', default_sep) for name in config.get('attributes').replace(',',' ').split()]
+    cnt = 0
+    # iterate over source file, line by line
+    for line in input:
+        line = line.rstrip(strip)
+        cnt += 1
+        if line.startswith('#'):
+            continue
+        attrs = line.split("\t")
+        match = multitoken.match(attrs[0])
+        if match is None:
+            # simple token: prepend "word" (equal to syntactic word) and return
+            if len(attrs) > 1:
+                attrs = [attrs[1], *attrs]
+            yield("\t".join(attrs))
+        else:
+            # multitoken: concatenate/merge all subtoken attributes using configured separators and return
+            first = int(match.group(1))
+            last = int(match.group(2))
+            word = attrs[1]
+            attr_buffer = []
+            for id in range(first, last+1):
+                line = next(input).rstrip(strip)
+                cnt += 1
+                attrs = line.split("\t")
+                if int(attrs[0]) != id:
+                    raise Exception("Token ID mismatch at line {0}: expected {1}, got {2}.".format(cnt, id, attrs[0]))
+                attr_buffer.append(attrs)
+            # separators[i:i+1]+[default_sep])[0] yields safe default in case there are more attributes than configured
+            merged_attrs = [(separators[i:i+1]+[default_sep])[0].join(x) for i, x in enumerate(list(zip(*attr_buffer)))]
+            merged_attrs = [word, *merged_attrs]
+            yield("\t".join(merged_attrs))
+
+
+if __name__ == '__main__':
+    """
+    Convert tagger annotation into stand-off annotation against a reference plain text file
+    =======================================================================================
+
+    Input: input file name with annotation created by a tagger
+        (Expects also availability of the corresponding reference text file with the same base name 
+        and the extension '.txt'.)
+    
+    Output: creates a new file with the same name as the input file(s), but with the extension '.ann.json'.
+    
+    Options: '-c <filename>' Read additional configuration. By default, the file 'vrt2standoff.ini' is
+             searched and loaded both from the directory with the scripts and the current working dir.
+             Later configuration files override previous settings. Command-line arguments override all.
+              
+             '-p <profile>' Use 'profile' section from the configuration. If not provided, the
+             section 'DEFAULT' will be used as fallback or the 'profile' specified in this section.
+              
+             '-P <method>' Specify preprocessor method for the input. Currently only 'none' and 'conllu'
+             are available.
+             Config setting: 'preprocess'.
+             Default: 'none'.
+              
+             '-a <list_of_attributes>' comma separated list of positional attribute names in the vertical
+             file (no spaces!). The very first column is always the original token string itself, 
+             the attribute names are thus applied from the second column on.
+             If not enough attribute names are provided, the following attributes will be named 
+             by its number as 'attr_N'.
+             Config setting: 'attributes' (may also be separated by spaces, commas, linebreaks or
+             a combination thereof)
+              
+             '-r <filename>' File with a table of replacement rules. It should be TSV (TAB separated)
+             file with two columns: 1) regular expression, 2) replacement. The rules are then applied to
+             every token (first column) from the vertical before it is matched to the reference text file.
+             Replacements may contain backreferences (e.g. \\1) and other escape sequences.
+             Enclose the regular expression by ^ and $ if you want it to match the whole token.
+             Config setting: 'replacements'.
+              
+             '-m <filename>' File with a table of matches. It should be TSV (TAB separated) file
+             where the first column contains a token found in the vertical and all other columns a list of
+             its possible correspondences in the original text that it may match. If the token also should
+             match itself (the same form as in the vertical), it must be explicitly listed among the possible
+             matches as well.
+             Config setting: 'matches'.
+              
+             '-us' Don't limit whitespace strip (removing whitespace from the vertical annotation) only 
+             to " \t\r\n", but use Python default (probably all unicode whitespace).
+             Default: strip SPACE, TAB, LF and CR characters only.
+              
+             '-t <element_name>' Name of the resulting XML elemenent for tokens.
+             Config setting: 'token_element'.
+             Default: 'w'.
+              
+             '-s <element_name>' Name of the resulting XML elemenent for sentences.
+             Config setting: 'sentence_element'.
+             Default: 's'.
+    """
+    
+    import os
+    import argparse
+    import configparser
+    import csv
+    import json
+    from pathlib import Path
+
+    preprocessors = {
+        'none': preprocess_none,
+        'conllu': preprocess_conllu
+    }
+
+    parser = argparse.ArgumentParser(description="Convert tagger annotation into standoff annotation against a reference plain text file")
+    parser.add_argument("infile", help="input file name")
+    parser.add_argument("-c", "--config", help="additional config file", type=str)
+    parser.add_argument("-p", "--profile", help="config profile to use", type=str, default='DEFAULT')
+    parser.add_argument("-P", "--preprocess", help="preprocessing to use", type=str, choices=preprocessors.keys())
+    parser.add_argument("-r", "--replacements", help="file with replacements (TSV)", type=str)
+    parser.add_argument("-m", "--matches", help="file with matches (TSV)", type=str)
+    parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
+    parser.add_argument("-us", "--unicode-strip", help="ignored whitespace extended to all unicode whitespace", action="store_true")
+    parser.add_argument("-t", "--token-element", help="name of token element", type=str)
+    parser.add_argument("-s", "--sentence-element", help="name of sentence element", type=str)
+    args = parser.parse_args()
+
+    # read configuration from files
+    scriptpath = path = os.path.dirname(os.path.realpath(__file__))
+    curpath = os.getcwd()
+    profiles = configparser.ConfigParser()
+    profiles.read([scriptpath+'/ann2standoff.ini', curpath+'/ann2standoff.ini'])
+    if args.config:
+        read = profiles.read(args.config)
+        if read != [args.config]:
+            raise Exception("Failed reading configuration file: '{0}'".format(args.config))
+    
+    # evt. update/override currently selected profile configuration with values from command-line arguments
+    profiles.read_dict({args.profile: {k: v for k, v in vars(args).items() if v is not None}})
+    config = profiles[args.profile]
+    
+    # input and output files
+    infile = Path(config.get('infile'))
+    txtin = infile.with_suffix('.txt')
+    jsonout = infile.with_suffix(".ann.json")
+
+    # load replacement table (if provided)
+    replacements = []
+    if 'replacements' in config:
+        with Path(config.get('replacements')).open() as csvfile:
+            csvreader = csv.reader(csvfile, delimiter="\t")
+            for row in csvreader:
+                if len(row) > 0:
+                    replacements.append((re.compile(row[0]), row[1]))
+
+    # load table of matches (if provided)
+    matchlist = []
+    if 'matches' in config:
+        with Path(config.get('matches')).open() as csvfile:
+            csvreader = csv.reader(csvfile, delimiter="\t", quoting=csv.QUOTE_NONE)
+            for row in csvreader:
+                if len(row) < 2:
+                    continue
+                token = row.pop(0)
+                matchlist[token] = row
+                matchlist[token].sort(key=len)
+
+    # process annotation and match it with the original text file
+    preprocessor = preprocessors[config.get('preprocess')]
+    with infile.open(encoding='utf-8') as annotation:
+        with txtin.open(encoding='utf-8', newline='') as text:
+            input = preprocessor(annotation, config)
+            data = ann2standoff(input, text, config, replacements, matchlist)
+
+    # write out the resulting annotation data
+    with jsonout.open(mode='w', encoding='utf-8') as jsonfile:
+        json.dump(data, jsonfile, indent=0)
