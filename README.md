@@ -23,8 +23,8 @@ The scripts should work with any version of Python >= 3.6. No additional librari
 
 The final merged XML file will contain additional XML mark-up according to the results of the analysis from the linguistic tagger:
 
-1) Sentences marked with the <s> element (unless explicitly disabled, element name is configurable)
-2) Tokens marked with the <w> element with arbitrarily named attributes containing the values from the PoS/morphological anlysis (amount and names of attributes are configurable; element name is configurable too)
+1) Sentences marked with the `<s>` element (unless explicitly disabled, element name is configurable)
+2) Tokens marked with the `<w>` element with arbitrarily named attributes containing the values from the PoS/morphological anlysis (amount and names of attributes are configurable; element name is configurable too)
 
 ## Typical usage
 
