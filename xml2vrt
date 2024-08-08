@@ -16,6 +16,7 @@
 import xml.sax
 import html
 import re
+import sys
 
 wrapper_element_name = 'wrapper_root'
 
@@ -36,7 +37,10 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
         self.last_was_token = False
         # token counter (any use?)
         self.tokencnt = 0
+        # element nesting tracking
+        self.levels = []
         # settings from the configuration
+        self.config = config
         self.strip_word_xml = not config.getboolean('keep_token_tags', False)
         self.glue_element = config.get('glue', 'g') if not config.getboolean('no_glue', False) else None
         self.attrnames = config.get('attributes').replace(',',' ').split()
@@ -47,6 +51,9 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
         self.exclude_elements = config.get('exclude_elements', '').replace(',',' ').split()
         self.include_elements = config.get('include_elements', '').replace(',',' ').split()
         self.wrapper_tag = wrapper_tag
+        self.flat_override = self.config.get('flat_override', False)
+        self.flat_separator = self.config.get('flat_separator', ' ')
+        self.flat_levelattr = self.config.get('flat_level_attribute', 'nesting_level')
         # if no included elements configured, just extract everything (i.e. the whole root element) by default
         self.include_scope = not len(self.include_elements)
         # excluded elements may be nested, check correct level at the end
@@ -66,7 +73,7 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
         # ignore everything outside the scope of included elements
         if self.exclude_scope > 0 or not self.include_scope:
             return
-        
+
         if name == self.token_element:
             # print out openTagBuffer
             self.output_tag_buffer()
@@ -77,11 +84,11 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
             for (key, value) in attrs.items():
                 self.token[key] = value
         else:
-            # all other elements are added to the tag buffer
-            contents = " " + " ".join([f'{a}="{html.escape(attrs.getValue(a))}"' for a in attrs.keys()]) if len(attrs) else ''
-            self.openTagBuffer.append((name,contents))
-            if not self.token:
-                self.last_was_token = False
+            # all other elements
+            first = self.close_flat_element(name)
+            # append to the levels heap
+            self.levels.append((name, attrs))
+            self.reopen_flat_elements(name, first=first)
 
     def endElement(self, name):
         # ignore wrapper tag
@@ -93,21 +100,12 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
             if name in self.exclude_elements:
                 self.exclude_scope -= 1
             return
-        
+        # excluded elements are ignored
         if name in self.exclude_elements:
-            # excluded elements are ignored
-            pass
-        elif len(self.openTagBuffer) > 0:
-            # there are elements in the buffer of open elements
-            if not self.keep_empty and name == self.openTagBuffer[-1][0] \
-                and (len(self.discard_empty) == 0 or name in self.discard_empty):
-                # empty element to be ignored
-                self.openTagBuffer.pop()
-                return
-            else:
-                # print out openTagBuffer
-                self.output_tag_buffer(lastName=name)
-        elif name == self.token_element:
+            return
+
+        if name == self.token_element:
+            self.output_tag_buffer()
             # print glue element?
             if self.glue_element is not None and self.whitespace == '' and self.last_was_token:
                 print("<{0}/>".format(self.glue_element))
@@ -130,13 +128,14 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
             self.whitespace = ''
             self.last_was_token = True
         else:
-            # some other element => print closing element tag
-            if self.token:
-                if not self.strip_word_xml:
-                    self.token['word'] += '</'+name+'>'
-            else:
-                print('</'+name+'>')
-                self.last_was_token = False
+            first = self.close_flat_element(name)
+            # remove from the levels heap
+            ename, _ = self.levels.pop()
+            if name != ename:
+                # should not happen
+                raise Exception(f"Unexpected situation: End of '{name}', but last open element was '{ename}'.")
+            self.reopen_flat_elements(name, first=first)
+
         # Leaving scope of included elements?
         if name in self.include_elements:
             self.include_scope = False
@@ -178,6 +177,70 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
                 # just print out
                 print(tag)
         self.openTagBuffer = []
+
+    def close_flat_element(self, name):
+        # close all elements from the top to the level of the first one
+        flat_levels = self.flat_levels()
+        first = next((i for i, x in enumerate(flat_levels) if x[0] == name), len(flat_levels))
+        for i in range(len(flat_levels)-1, first-1, -1):
+            curname, _ = flat_levels[i]
+            # close element
+            if len(self.openTagBuffer) > 0:
+                # there are elements in the buffer of open elements
+                if not self.keep_empty and curname == self.openTagBuffer[-1][0] \
+                    and (len(self.discard_empty) == 0 or curname in self.discard_empty):
+                    # empty element to be ignored
+                    self.openTagBuffer.pop()
+                    continue
+                else:
+                    # print out openTagBuffer
+                    self.output_tag_buffer(lastName=curname)
+            else:
+                # some other element => print closing element tag
+                if self.token:
+                    if not self.strip_word_xml:
+                        self.token['word'] += '</'+curname+'>'
+                else:
+                    print('</'+curname+'>')
+                    self.last_was_token = False
+        return first
+
+    def reopen_flat_elements(self, name, first=None):
+        # reopen to the top again
+        flat_levels = self.flat_levels()
+        first = first or next((i for i, x in enumerate(flat_levels) if x[0] == name), len(flat_levels))
+        for i in range(first, len(flat_levels)):
+            name, attrs = flat_levels[i]
+            # add to the tag buffer
+            contents = " " + " ".join([f'{a}="{html.escape(str(v))}"' for a, v in attrs.items()]) if len(attrs) else ''
+            self.openTagBuffer.append((name,contents))
+            if not self.token:
+                self.last_was_token = False
+
+    def flat_levels(self):
+        flat = []
+        map = {}
+        cnt = 0
+        for name, attrs in self.levels:
+            attrs = {k: v for k, v in attrs.items()}
+            index = map.get(name, None)
+            if index is None:
+                map[name] = cnt
+                flat.append((name, attrs))
+            else:
+                self.merge_attrs(name, flat[index][1], attrs)
+            cnt += 1
+        return flat
+
+    def merge_attrs(self, name, baseattrs, newattrs):
+        for (key, value) in newattrs.items():
+            override = self.config.get(f'flat_override_{name}_{key}', self.flat_override)
+            if key not in baseattrs or override:
+                baseattrs[key] = value
+            else:
+                sep = self.config.get(f'flat_separator_{name}_{key}', self.flat_separator)
+                baseattrs[key] += sep + value
+        baseattrs[self.flat_levelattr] = baseattrs.get(self.flat_levelattr, 0) + 1
 
 
 if __name__ == "__main__":
