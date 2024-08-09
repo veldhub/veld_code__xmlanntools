@@ -134,7 +134,7 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
             self.last_was_token = True
         else:
             # other XML element 
-            first = self.close_flat_element(name)
+            first = self.close_flat_element(name, original=True)
             # remove the element from the levels heap (hierarchy)
             ename, _ = self.levels.pop()
             if name != ename:
@@ -184,7 +184,7 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
                 print(tag)
         self.openTagBuffer = []
 
-    def close_flat_element(self, name):
+    def close_flat_element(self, name, original=False):
         """
         Close the XML element of the given name and all subelements within its scope in the flattened hierarchy
         """
@@ -196,7 +196,7 @@ class TaggedXMLContentHandler(xml.sax.ContentHandler):
             # close element
             if len(self.openTagBuffer) > 0:
                 # there are elements in the buffer of open elements
-                is_original = self.openTagBuffer[-1][2]
+                is_original = self.openTagBuffer[-1][2] and original and curname == name
                 lastName = self.openTagBuffer[-1][0]
                 if not is_original or (not self.keep_empty and curname == lastName \
                     and (len(self.discard_empty) == 0 or curname in self.discard_empty)):
