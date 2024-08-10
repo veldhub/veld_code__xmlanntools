@@ -278,6 +278,12 @@ if __name__ == '__main__':
              `-Wb <elements>` to issue warning whenever the annotation breaks another element than
              one of the listed ones (comma-separated list of element names, e.g. `-Wb hi,stage,foreign`);
              no warnings are issued if `-Wb` is omitted
+
+             `-te <element_name>` Name of the XML elemenent for tokens.
+             Default: 'w'.
+
+             '-se <element_name>' Name of the XML elemenent for sentences.
+             Default: 's'.
              
     """
     
@@ -286,6 +292,8 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--tokens-only", help="ignore sentence boundaries from the `.ann.json` annotation", action="store_true")
     parser.add_argument("-Wb", "--warn-breaking-except", type=str,
                         help="raise warning when breaking elements other than the specified ones (comma-separated list of element names, e.g. `-Wb hi,stage,foreign`)")
+    parser.add_argument("-te", "--token-element", help="name of token element", type=str, default='w')
+    parser.add_argument("-se", "--sentence-element", help="name of sentence element", type=str, default='s')
     args = parser.parse_args()
     breakable = args.warn_breaking_except.split(',') if args.warn_breaking_except else None
     
@@ -308,10 +316,10 @@ if __name__ == '__main__':
         with annjsonin.open(encoding='utf-8') as jsonfile:
             annotation = json.load(jsonfile)
         # extract word-level/token annotation (tagging)
-        tokens = [i for i in annotation if i['name'] == 'w']
+        tokens = [i for i in annotation if i['name'] == args.token_element]
         # extract sentence segmentation (unless it shuold be ignored)
         if not args.tokens_only:
-            sentences = [i for i in annotation if i['name'] == 's']
+            sentences = [i for i in annotation if i['name'] == args.sentence_element]
             # merge sentence segmentation (if any) with the original XML mark-up
             if len(sentences):
                 xmlann = merge_annotations(xmlann, sentences, breakable)
