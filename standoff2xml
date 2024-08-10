@@ -121,7 +121,7 @@ def merge_xml(text, annotation, out):
                     out.write(i['tail'])
                 
 
-def merge_annotations(origann, newann, breakable=None, allowmerge=False):
+def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betweenspan_elements=False):
     """
     Merge original annotation with a new annotation into one stream
     
@@ -140,6 +140,8 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False):
         by a new span (Default: None [i.e. no warnings at all])
     allowmerge : bool
         allow merge of spans with the same name, start and end position (Default: False)
+    no_betweenspan_elements : bool
+        do NOT restart broken elements between spans of the new annotation (usually pointless highlighting between sentences)
 
     Returns:
     --------
@@ -231,8 +233,10 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False):
                 xc = x.copy()  # a) part to be placed inside the new span
                 xc['end'] = t['end']
                 inbuffer.append(xc)
-                x['start'] = t['end']  # b) rest to be cut and restarted after the new span
-                restartspans.append(x)
+                # b) rest to be cut and restarted after the new span
+                if not no_betweenspan_elements:
+                    x['start'] = t['end']
+                    restartspans.append(x)
                 openspans.append(x)
             xptr += 1
 
@@ -284,6 +288,8 @@ if __name__ == '__main__':
 
              '-se <element_name>' Name of the XML elemenent for sentences.
              Default: 's'.
+
+             '-kb' Keep broken elements also between sentences (usually pointless for highlighting etc.)
              
     """
     
@@ -294,6 +300,7 @@ if __name__ == '__main__':
                         help="raise warning when breaking elements other than the specified ones (comma-separated list of element names, e.g. `-Wb hi,stage,foreign`)")
     parser.add_argument("-te", "--token-element", help="name of token element", type=str, default='w')
     parser.add_argument("-se", "--sentence-element", help="name of sentence element", type=str, default='s')
+    parser.add_argument("-kb", "--keep-between-sentences", help="keep broken elements between sentences", action="store_true")
     args = parser.parse_args()
     breakable = args.warn_breaking_except.split(',') if args.warn_breaking_except else None
     
@@ -322,7 +329,7 @@ if __name__ == '__main__':
             sentences = [i for i in annotation if i['name'] == args.sentence_element]
             # merge sentence segmentation (if any) with the original XML mark-up
             if len(sentences):
-                xmlann = merge_annotations(xmlann, sentences, breakable)
+                xmlann = merge_annotations(xmlann, sentences, breakable, no_betweenspan_elements=not args.keep_between_sentences)
         # merge with the token level annotation 
         xmlann = merge_annotations(xmlann, tokens, breakable)
     else:
