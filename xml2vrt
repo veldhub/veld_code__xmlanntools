@@ -351,7 +351,7 @@ if __name__ == "__main__":
              '-ng' Do NOT insert glue elements.
              Config setting: 'no_glue'.
         
-             '-t <element_name>' Specify token element name. 
+             '-te <element_name>' Specify token element name. 
              Default: 'w'.
              Config setting: 'token_element'.
 
@@ -381,7 +381,7 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--config", help="additional config file", type=str)
     parser.add_argument("-p", "--profile", help="config profile to use", type=str, default='DEFAULT')
     parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
-    parser.add_argument("-t", "--token-element", help="name of token element", type=str)
+    parser.add_argument("-te", "--token-element", help="name of token element", type=str)
     parser.add_argument("-i", "--include-elements", help="(sub)elements to extract (default: document root)", type=str)
     parser.add_argument("-e", "--exclude-elements", help="elements to exclude from the extraction", type=str)
     parser.add_argument("-kt", "--keep-token-tags", help="keep tags within tokens", action="store_true")

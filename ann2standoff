@@ -258,11 +258,11 @@ if __name__ == '__main__':
              to " \t\r\n", but use Python default (probably all unicode whitespace).
              Default: strip SPACE, TAB, LF and CR characters only.
               
-             '-t <element_name>' Name of the resulting XML elemenent for tokens.
+             '-te <element_name>' Name of the resulting XML elemenent for tokens.
              Config setting: 'token_element'.
              Default: 'w'.
               
-             '-s <element_name>' Name of the resulting XML elemenent for sentences.
+             '-se <element_name>' Name of the resulting XML elemenent for sentences.
              Config setting: 'sentence_element'.
              Default: 's'.
     """
@@ -288,8 +288,8 @@ if __name__ == '__main__':
     parser.add_argument("-m", "--matches", help="file with matches (TSV)", type=str)
     parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
     parser.add_argument("-us", "--unicode-strip", help="ignored whitespace extended to all unicode whitespace", action="store_true")
-    parser.add_argument("-t", "--token-element", help="name of token element", type=str)
-    parser.add_argument("-s", "--sentence-element", help="name of sentence element", type=str)
+    parser.add_argument("-te", "--token-element", help="name of token element", type=str)
+    parser.add_argument("-se", "--sentence-element", help="name of sentence element", type=str)
     args = parser.parse_args()
 
     # read configuration from files
