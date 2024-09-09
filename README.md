@@ -17,7 +17,7 @@ The tagger may ignore any whitespace, but all other types of characters must be 
 
 ## Requirements of the scripts
 
-The scripts should work with any version of Python >= 3.6. No additional libraries beyond the ones included with Python by default are necessary.
+The basic scripts should work with any version of Python >= 3.6. No additional libraries beyond the ones included with Python by default are necessary. The suuplementary scripts may have additional dependencies (e.g. `tag_ud` requires the package `requests`).
 
 ## The result
 
