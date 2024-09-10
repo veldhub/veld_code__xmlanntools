@@ -280,7 +280,7 @@ if __name__ == '__main__':
     }
 
     parser = argparse.ArgumentParser(description="Convert tagger annotation into standoff annotation against a reference plain text file")
-    parser.add_argument("infile", help="input file name")
+    parser.add_argument("infile", help="input file name (annotation output from the tagger)")
     parser.add_argument("-c", "--config", help="additional config file", type=str)
     parser.add_argument("-p", "--profile", help="config profile to use", type=str, default='DEFAULT')
     parser.add_argument("-P", "--preprocess", help="preprocessing to use", type=str, choices=preprocessors.keys())

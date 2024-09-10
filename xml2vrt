@@ -377,7 +377,7 @@ if __name__ == "__main__":
     from pathlib import Path
 
     parser = argparse.ArgumentParser(description="Convert tagged XML file into vertical format")
-    parser.add_argument("infile", help="input file name")
+    parser.add_argument("infile", help="input XML file name")
     parser.add_argument("-c", "--config", help="additional config file", type=str)
     parser.add_argument("-p", "--profile", help="config profile to use", type=str, default='DEFAULT')
     parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
