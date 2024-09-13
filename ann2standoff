@@ -68,7 +68,6 @@ def ann2standoff(vrtann, reftext, config, replacements=[], matchlist=[]):
         
     """
     attrnames = config.get('attributes', '').replace(',',' ').split()
-    strip = " \t\r\n" if not config.getboolean('unicode_strip') else None
     token_element = config.get('token_element', 'w')
     sentence_element = config.get('sentence_element', 's')
     linecnt = 0 
@@ -77,7 +76,7 @@ def ann2standoff(vrtann, reftext, config, replacements=[], matchlist=[]):
     sstart = -1
     # each line in a vertical format corresponds to one annotated token in the reference text
     for line in vrtann:
-        line = line.rstrip(strip)
+        line = line.rstrip(" \t\r\n")
         linecnt += 1
         if not len(line):
             # empty line: sentence boundary
@@ -104,7 +103,7 @@ def ann2standoff(vrtann, reftext, config, replacements=[], matchlist=[]):
         # skip any whitespace between tokens and store it in "pre"
         pre = ''
         token = reftext.read(1)
-        while not len(token.strip(strip)):
+        while not len(token.strip()):
             pre += token
             token = reftext.read(1)
             if token == '':
@@ -147,7 +146,7 @@ def ann2standoff(vrtann, reftext, config, replacements=[], matchlist=[]):
     # no more annotation available - anything else left in the source text?
     token = reftext.read(1)
     while token != '':
-        if len(token.strip(strip)):
+        if len(token.strip()):
             sys.stderr.write("Warning: Missing annotation for source text: ")
             token += reftext.read(100)
             sys.stderr.write(token+"...\n")
@@ -171,7 +170,7 @@ def preprocess_conllu(input, config):
     
     (generator of single general vertical lines also from the CoNLL-U two-level tokenization)
     """
-    strip = " \t\r\n" if not config.getboolean('unicode_strip') else None
+    #strip = " \t\r\n" if config.getboolean('ascii_strip') else None
     multitoken = re.compile("([0-9]+)\-([0-9]+)")
     # create list of separators for all configured atrributes using either default or their specific separator if defined
     default_sep = config.get('multi_separator', '|')
@@ -179,7 +178,7 @@ def preprocess_conllu(input, config):
     cnt = 0
     # iterate over source file, line by line
     for line in input:
-        line = line.rstrip(strip)
+        line = line.rstrip(" \t\r\n")
         cnt += 1
         if line.startswith('#'):
             continue
@@ -197,7 +196,7 @@ def preprocess_conllu(input, config):
             word = attrs[1]
             attr_buffer = []
             for id in range(first, last+1):
-                line = next(input).rstrip(strip)
+                line = next(input).rstrip(" \t\r\n")
                 cnt += 1
                 attrs = line.split("\t")
                 if int(attrs[0]) != id:
@@ -254,10 +253,6 @@ if __name__ == '__main__':
              matches as well.
              Config setting: 'matches'.
               
-             '-us' Don't limit whitespace strip (removing whitespace from the vertical annotation) only 
-             to " \t\r\n", but use Python default (probably all unicode whitespace).
-             Default: strip SPACE, TAB, LF and CR characters only.
-              
              '-te <element_name>' Name of the resulting XML elemenent for tokens.
              Config setting: 'token_element'.
              Default: 'w'.
@@ -287,7 +282,6 @@ if __name__ == '__main__':
     parser.add_argument("-r", "--replacements", help="file with replacements (TSV)", type=str)
     parser.add_argument("-m", "--matches", help="file with matches (TSV)", type=str)
     parser.add_argument("-a", "--attributes", help="attribute names (except first position, separated by comma)", type=str)
-    parser.add_argument("-us", "--unicode-strip", help="ignored whitespace extended to all unicode whitespace", action="store_true")
     parser.add_argument("-te", "--token-element", help="name of token element", type=str)
     parser.add_argument("-se", "--sentence-element", help="name of sentence element", type=str)
     args = parser.parse_args()
