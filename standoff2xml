@@ -112,13 +112,13 @@ def merge_xml(text, annotation, out):
                 # re-sort the list of open elements by order
                 openels = sorted(openels, key=itemgetter('order'))
                 nextclose = None
-                #
-                if 'skip' in i:
-                    curpos += i['skip']
             # for zero length elements try to output the 'tail'
             else:
                 if 'tail' in i:
                     out.write(i['tail'])
+            # skip characters to be skipped
+            if 'skip' in i:
+                curpos += i['skip']
                 
 
 def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betweenspan_elements=False):

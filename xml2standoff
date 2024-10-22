@@ -84,6 +84,12 @@ def split_xml(text, txtelements=None, excludes=None, keep_linebreaks=False):
 
     text : str
         XML input as text string
+    txtelements : list of str
+        list of names of elements containg text to be extracted
+    excludes : list of str
+        list of names of elements to be skipped
+    keep_linebreaks : boolean
+        keep linebreaks within text elements or remove them?
 
     Returns:
     --------
@@ -201,6 +207,11 @@ def split_xml(text, txtelements=None, excludes=None, keep_linebreaks=False):
                     # zero-span: empty tags, comments and proc. instructions have no end tag and can be inserted into the buffer immediately
                     eldesc = {"name": ename, "contents": econtents,
                               "start": charcnt, "end": charcnt, "level": slevel, 'order': order}
+                    # should the empty element add a provisional line break?
+                    if txtelements is not None and exclude_depth == 0 and ename.endswith("/") and ename[:-1] in txtelements:
+                        charcnt += 1
+                        plaintext.write("\n")
+                        eldesc['skip'] = 1
                     markup.append(eldesc)
                     if (txtelements is not None and txtel_depth == 0) or (excludes is not None and exclude_depth > 0):
                         text_store = (eldesc, 'tail')
