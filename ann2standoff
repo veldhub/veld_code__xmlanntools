@@ -171,7 +171,7 @@ def preprocess_conllu(input, config):
     (generator of single general vertical lines also from the CoNLL-U two-level tokenization)
     """
     #strip = " \t\r\n" if config.getboolean('ascii_strip') else None
-    multitoken = re.compile("([0-9]+)\-([0-9]+)")
+    multitoken = re.compile("([0-9]+)-([0-9]+)")
     # create list of separators for all configured atrributes using either default or their specific separator if defined
     default_sep = config.get('multi_separator', '|')
     separators = [config.get(f'multi_separator_{name}', default_sep) for name in config.get('attributes', '').replace(',',' ').split()]
