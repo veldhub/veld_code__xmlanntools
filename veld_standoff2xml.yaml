@@ -1,0 +1,19 @@
+x-veld:
+  code:
+    description: ""
+    topics: NLP
+
+    inputs:
+
+    outputs:
+
+    settings:
+
+services:
+  standoff2xml:
+    build: .
+    volumes:
+      - ./:/veld/code/
+    command: ./veld_standoff2xml.sh
+    #environment:
+
