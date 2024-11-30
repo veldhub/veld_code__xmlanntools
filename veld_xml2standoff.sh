@@ -1,8 +1,6 @@
 #!/bin/bash
 
-cp /veld/input/$in_xml_file /veld/output/
-
-command="./xml2standoff /veld/output/${in_xml_file}"
+command="./xml2standoff /veld/input/${in_xml_file}"
 
 if [ -n "$text_elements" ]; then
   command+=" -t ${text_elements}"
@@ -20,5 +18,9 @@ echo "executing:"
 echo "$command"
 eval "$command"
 
-rm /veld/output/$in_xml_file
+out_txt_file_generated="${in_xml_file%.xml}.txt"
+out_json_file_generated="${in_xml_file%.xml}.json"
+
+mv /veld/input/"$out_txt_file_generated" /veld/output/"$out_txt_file"
+mv /veld/input/"$out_json_file_generated" /veld/output/"$out_json_file"
 

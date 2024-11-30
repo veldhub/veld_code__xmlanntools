@@ -7,13 +7,15 @@ x-veld:
 
     inputs:
       - volume: /veld/input/
-        file_type: xml
         environment: in_xml_file
+        file_type: xml
 
     outputs:
       - volume: /veld/output/
+        environment: out_txt_file
         file_type: txt
       - volume: /veld/output/
+        environment: out_json_file
         file_type: json
 
     settings:
@@ -44,6 +46,8 @@ services:
     command: ./veld_xml2standoff.sh
     environment:
       in_xml_file: null
+      out_txt_file: null
+      out_json_file: null
       text_elements: null
       exclude_elements: null
       keep_linebreaks: false
