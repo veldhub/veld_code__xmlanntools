@@ -1,0 +1,14 @@
+x-veld:
+  code:
+
+services:
+  xml2standoff:
+    build: .
+    volumes:
+      - ./:/veld/code/
+    command: ./veld_xml2standoff.sh
+    environment:
+      in_xml_file: null
+      text_elements: null
+      keep_linebreaks: false
+
