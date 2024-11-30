@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 command="./xml2standoff /veld/input/${in_xml_file}"
 
 if [ -n "$text_elements" ]; then
@@ -19,8 +21,16 @@ echo "$command"
 eval "$command"
 
 out_txt_file_generated="${in_xml_file%.xml}.txt"
-out_json_file_generated="${in_xml_file%.xml}.json"
+if [ -n "$out_txt_file" ]; then
+  mv /veld/input/"$out_txt_file_generated" /veld/output/"$out_txt_file"
+else
+  mv /veld/input/"$out_txt_file_generated" /veld/output/
+fi
 
-mv /veld/input/"$out_txt_file_generated" /veld/output/"$out_txt_file"
-mv /veld/input/"$out_json_file_generated" /veld/output/"$out_json_file"
+out_json_file_generated="${in_xml_file%.xml}.json"
+if [ -n "$out_json_file" ]; then
+  mv /veld/input/"$out_json_file_generated" /veld/output/"$out_json_file"
+else
+  mv /veld/input/"$out_json_file_generated" /veld/output/
+fi
 

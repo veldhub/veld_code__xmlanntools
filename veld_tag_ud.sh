@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 command="./tag_ud -f /veld/input/${in_txt_file}"
 
 if [ -n "$model" ]; then

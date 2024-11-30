@@ -1,8 +1,11 @@
 #!/bin/bash
 
+set -e
+
 in_txt_file_expected="${in_conllu_file%.conllu}.txt"
-if [ $in_txt_file != $in_txt_file_expected ]; then
+if [ -n "$in_txt_file" ] && [ $in_txt_file != $in_txt_file_expected ]; then
   cp /veld/input/"$in_txt_file" /veld/input/"$in_txt_file_expected"
+  rm_txt_file=1
 fi
 
 command="./ann2standoff /veld/input/${in_conllu_file}"
@@ -19,7 +22,7 @@ echo "executing:"
 echo "$command"
 eval "$command"
 
-if [ $in_txt_file != $in_txt_file_expected ]; then
+if [ "$rm_txt_file" = "1" ]; then
   rm /veld/input/"$in_txt_file_expected"
 fi
 
