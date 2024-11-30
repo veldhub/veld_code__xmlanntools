@@ -19,5 +19,6 @@ services:
       in_conllu_file: null
       in_txt_file: null
       in_ann2standoff_ini_file: null
+      out_json_file: null
       profile_name: DEFAULT
 
