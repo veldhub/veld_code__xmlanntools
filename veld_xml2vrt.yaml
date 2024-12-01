@@ -15,5 +15,19 @@ services:
     volumes:
       - ./:/veld/code/
     command: ./veld_xml2vrt.sh
-    #environment:
+    environment:
+      in_ann_xml_file: null
+      in_ann2standoff_ini_file: null
+      out_conlluish_xml_file: null
+      attributes: null
+      token_element: null
+      include_elements: null
+      exclude_elements: null
+      keep_token_tags: false
+      keep_empty: false
+      discard_freetext: false
+      no_glue: false
+      glue: null
+      fragment: false
+      no_flattening: false
 

@@ -15,5 +15,12 @@ services:
     volumes:
       - ./:/veld/code/
     command: ./veld_standoff2xml.sh
-    #environment:
+    environment:
+      in_txt_file: null
+      in_json_file: null
+      in_ann_json_file: null
+      out_ann_xml_file: null
+      token_annotation: false
+      warn_breaking: null
+      keep_between_sentences: false
 
