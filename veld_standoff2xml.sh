@@ -48,10 +48,12 @@ if [ "$rm_ann_json_file" = "1" ]; then
   rm /veld/input/"$in_ann_json_file_expected"
 fi
 
+set +e
 out_ann_xml_file_generated="${in_txt_file%.txt}.ann.xml"
 if [ -n "$out_ann_xml_file" ]; then
-  mv /veld/input/"$out_ann_xml_file_generated" /veld/output/"$out_ann_xml_file"
+  mv /veld/input/"$out_ann_xml_file_generated" /veld/output/"$out_ann_xml_file" 2> /dev/null
 else
-  mv /veld/input/"$out_ann_xml_file_generated" /veld/output/
+  mv /veld/input/"$out_ann_xml_file_generated" /veld/output/ 2> /dev/null
 fi
+exit 0
 
