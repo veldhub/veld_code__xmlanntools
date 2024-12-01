@@ -2,10 +2,10 @@
 
 set -e
 
-command="./xml2vrt /veld/input/${in_ann_xml_file}"
+command="./xml2vrt /veld/input/data/${in_ann_xml_file}"
 
 if [ -n "$in_ann2standoff_ini_file" ]; then
-  command+=" -c /veld/input/${in_ann2standoff_ini_file}"
+  command+=" -c /veld/input/config/${in_ann2standoff_ini_file}"
 fi
 
 if [ -n "$profile_name" ]; then
