@@ -1,19 +1,73 @@
 x-veld:
   code:
-    description: ""
-    topics: NLP
+    description: "A demo code veld, integrating the ann2standoff script. For more documentation, 
+      see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2vrt"
+    topics:
+      - NLP
+      - ETL
 
     inputs:
+      - volume: /veld/input/data/
+        environment: in_ann_xml_file
+        file_type: xml
+      - volume: /veld/input/config/
+        environment: in_ann2standoff_ini_file
+        file_type: ini
 
     outputs:
+      - volume: /veld/output/
+        environment: out_conlluish_xml_file
+        file_type: xml
 
     settings:
+      - environment: attributes
+        env_type: str
+        optional: true
+      - environment: token_element
+        env_type: str
+        optional: true
+      - environment: include_elements
+        env_type: str
+        optional: true
+      - environment: exclude_elements
+        env_type: str
+        optional: true
+      - environment: keep_token_tags
+        env_type: bool
+        default: false
+        optional: true
+      - environment: keep_empty
+        env_type: bool
+        default: false
+        optional: true
+      - environment: discard_freetext
+        env_type: bool
+        default: false
+        optional: true
+      - environment: no_glue
+        env_type: bool
+        default: false
+        optional: true
+      - environment: glue
+        env_type: str
+        optional: true
+      - environment: fragment
+        env_type: bool
+        default: false
+        optional: true
+      - environment: no_flattening
+        env_type: bool
+        default: false
+        optional: true
 
 services:
   xml2vrt:
     build: .
     volumes:
       - ./:/veld/code/
+      - ./data/xml2vrt/in/data/:/veld/input/data/
+      - ./data/xml2vrt/in/config/:/veld/input/config/
+      - ./data/xml2vrt/out/:/veld/output/
     command: ./veld_xml2vrt.sh
     environment:
       in_ann_xml_file: null

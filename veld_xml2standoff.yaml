@@ -1,9 +1,10 @@
 x-veld:
   code:
-    description: "Veldified version of xml2standoff. All three parameters can be passed as
-      environment variables as defined below. On the functions of each, please see:
-      https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
-    topics: ETL
+    description: "A demo code veld, integrating the ann2standoff script. For more documentation, 
+      see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
+    topics:
+      - NLP
+      - ETL
 
     inputs:
       - volume: /veld/input/
@@ -20,20 +21,12 @@ x-veld:
 
     settings:
       - environment: text_elements
-        description: "Elements to be selected, separated by comma without whitespace in between. For
-          more information, see: 
-          https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
         env_type: str
         optional: true
       - environment: exclude_elements
-        description: "Elements to be excluded, separated by comma without whitespace in between. For
-          more information, see: 
-          https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
         env_type: str
         optional: true
       - environment: keep_linebreaks
-        description: "Should linebreaks be kept? If not set to true, linebreaks will be removed automatically within contents. For more information, see: 
-          https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
         env_type: bool
         default: false
         optional: true
@@ -43,6 +36,8 @@ services:
     build: .
     volumes:
       - ./:/veld/code/
+      - ./data/xml2standoff/in/:/veld/input/
+      - ./data/xml2standoff/out/:/veld/output/
     command: ./veld_xml2standoff.sh
     environment:
       in_xml_file: null

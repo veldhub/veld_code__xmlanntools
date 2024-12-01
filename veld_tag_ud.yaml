@@ -1,9 +1,10 @@
 x-veld:
   code:
-    description: "Veldified version of tag_ud. All three parameters can be passed as 
-      environment variables as defined below. On the functions of each, please see: 
-      https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#tag_ud"
-    topics: NLP
+    description: "A demo code veld, integrating the ann2standoff script. For more documentation, 
+      see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#tag_ud"
+    topics:
+      - NLP
+      - ETL
 
     inputs:
       - volume: /veld/input/
@@ -19,21 +20,12 @@ x-veld:
 
     settings:
       - environment: model
-        description: "The UDPipe model proivded by the REST API at 
-          https://lindat.mff.cuni.cz/services/udpipe/ . For available models, see here: 
-          https://ufal.mff.cuni.cz/udpipe/2/models . For more information on how to use this tag_ud 
-          service, see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#tag_ud"
         env_type: str
       - environment: batch
-        description: "Number of text lines to be sent in batches to the UDPipe REST API. For 
-          more information, see: 
-          https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#tag_ud"
         env_type: int
         default: 1000
         optional: true
       - environment: verbose
-        description: "Boolean flag to set verbose information or not during execution. For more 
-          information, see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#tag_ud"
         env_type: bool
         default: false
         optional: true
@@ -43,6 +35,8 @@ services:
     build: .
     volumes:
       - ./:/veld/code/
+      - ./data/tag_ud/in/:/veld/input/
+      - ./data/tag_ud/out/:/veld/output/
     command: ./veld_tag_ud.sh
     environment:
       in_txt_file: null
