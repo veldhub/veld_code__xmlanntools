@@ -1,6 +1,6 @@
 x-veld:
   code:
-    description: "A demo code veld, integrating the ann2standoff script. For more documentation, 
+    description: "A demo code veld, integrating the xml2standoff script. For more documentation, 
       see: https://github.com/czcorpus/xmlanntools?tab=readme-ov-file#xml2standoff"
     topics:
       - NLP
