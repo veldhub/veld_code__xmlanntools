@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script is a wrapper for the underlying xmlanntools script. It handles input and output files,
+# respective to the VELD design, and also constructs a command from the VELD compose file, which is
+# then executed.
+
 set -e
 
 command="./xml2vrt /veld/input/data/${in_ann_xml_file}"
