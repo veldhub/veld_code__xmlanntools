@@ -1,0 +1,19 @@
+x-veld:
+  code:
+    description: ""
+    topics: NLP
+
+    inputs:
+
+    outputs:
+
+    settings:
+
+services:
+  xml2vrt:
+    build: .
+    volumes:
+      - ./:/veld/code/
+    command: ./veld_xml2vrt.sh
+    #environment:
+
