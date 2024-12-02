@@ -1,8 +1,12 @@
 # XML annotation tools (veldified)
 
+### note on veldification
+
 This repo is a fork of https://github.com/czcorpus/xmlanntools . All the code is identical to the
 source repo, except  for veldified wrappers of the scripts which have been added. They are
 exemplified in this chain repo: https://github.com/SteffRhes/veld_chain_demo_xmlanntools
+
+# original
 
 ## The objectives
 
