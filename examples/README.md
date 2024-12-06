@@ -6,11 +6,11 @@ Looking at the source file `TEI_example1.xml`, we can see typical TEI structure 
 
 - rather than extracting text from the whole `<text>` element, we want to extract text from the single paragraph-level elements `<p>` and `<head>`, possibly also the `<quote>` elements (see below for more discussion); the extraction will temporarily remove any line-breaks within the inner contents of these text elements, so that the tagger may span sentences freely across the purely technical line-breaks in the XML source
 - we want to treat single verses within the `<l>` element as independent text segments too, not allowing the tagger to span sentences across the verse breaks (another approach may also be appropriate, though); these elements occur both as nested within `<p>` and within `<quote>`
-- in the presented fragment, the `<quote>` element occuring *outside* the `<p>` element only consists of `<l>` elements, which we want to treat separately, and does not contain any other text contents on its own. Therefore, there would in principle be no need to define it as another text element. However, we might want to extract the quotes nested *within* a `<p>` as separate text elements (separated by line-break for the tagger) and in that case we should also add it to the list of text elements
+- in the presented fragment, the `<quote>` element occuring *outside* the `<p>` element only consists of `<l>` elements, which we want to treat separately, and does not contain any other text contents on its own. Therefore, there would in principle be no need to define it as another text element. However, we might want to extract the `<quote>`s nested *within* a `<p>` as separate text elements (separated by line-break for the tagger) and in that case we should also add it to the list of text elements
 - we want to exclude anything within the `<teiHeader>` and `<front>`-matter (these parts may otherwise also contain some above mentioned elements defined as text elements!)
 - we also want to exclude text parts within the `<foreign>` element, since there is no reason to analyze them with an English tagger
 
-In this situation, we want to run `xml2standoff` with the text elements (option `-t`) specified as `p,head,quote,l` and excluding (option `-e`) anything within the elements `teiHeader,front,foreign`: 
+In this situation, we should run `xml2standoff` with the text elements (option `-t`) specified as `p,head,quote,l` and excluding (option `-e`) anything within the elements `teiHeader,front,foreign`: 
 
 ```
 xml2standoff -t p,head,quote,l -e teiHeader,front,foreign TEI_example1.xml
@@ -30,7 +30,7 @@ ann2standoff -p conllu TEI_example1.conllu
 
 This will create the `TEI_example1.ann.json` file (if the results from the tagger can be successfully matched with the plain text file).
 
-In the next step, we can construct a new annotated XML by merging both the original standoff XML markup and the standoff annotation resulting from the tagger/analyzer with the plain text contents:
+In the next step, we can construct a new annotated XML by merging both the original standoff XML markup and the standoff annotation produced by the tagger/analyzer with the plain text contents:
 
 ```
 standoff2xml TEI_example1.txt
@@ -38,7 +38,7 @@ standoff2xml TEI_example1.txt
 
 The resulting file will be named `TEI_example1.ann.xml` and in addition to the original XML markup, it will contain sentences delimited by the elements `<s>` and analyzed tokens enclosed within the elements `<w>` with attributes containing the analysis produced by the tagger/analyzer. Any subtoken annotation (resulting from the two level tokenization of UD) will be merged as described in the main `README.md`.
 
-In case we need to index the resulting text by a search engine using the vertical format as input (CQP/Manatee), we may use the supplementary script `xml2vrt` to create the vertical format containing just the relevant contents from the annotated XML file. In this case we would probably only include (option `-i`) the `text` element (avoiding the `teiHeader` completely) and also exclude (option `-e`) the whole `front`-matter. By using the preconfigured profile (option `-p`) `conllu`, the created vertical will have a similar structure as the CoNLL-U format, just with the ortographic "word" element placed into the first column (before the token ID) as required by the indexing engines.
+In case we need to index the final annotated XML text file by a search engine using the vertical format as input (CQP/Manatee), we may use the supplementary script `xml2vrt` to create the vertical format containing just the relevant contents from the annotated XML file. In this case we would probably only include (option `-i`) the `text` element (avoiding the `teiHeader` completely) and also exclude (option `-e`) the whole `front`-matter. By using the preconfigured profile (option `-p`) `conllu`, the created vertical will have a similar structure as the CoNLL-U format, just with the ortographic "word" element placed into the first column (before the token ID) as required by the indexing engines.
 
 ```
 xml2vrt -p conllu -i text -e front TEI_example1.ann.xml >TEI_example1.vrt
