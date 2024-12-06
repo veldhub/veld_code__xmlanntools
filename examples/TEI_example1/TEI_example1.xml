@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <?xml-model href="../../Schemas/eltec-1.rng" type="application/xml" 
+            schematypens="http://relaxng.org/ns/structure/1.0"?>
+    <?xml-model href="../../Schemas/eltec-1.rng" type="application/xml" 
+            schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:e="http://distantreading.net/ns" xml:id="ENG18871" xml:lang="en">
+ <teiHeader xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <fileDesc>
+   <titleStmt>
+    <title>Red as a rose is she : ELTeC edition</title>
+    <author ref="https://viaf.org/viaf/45106836/">Broughton, Rhoda (1840-1920)</author>
+    <respStmt>
+     <resp>Encoded By</resp>
+     <name>Nicholae Cline.</name>
+    </respStmt>
+    <respStmt>
+     <resp>Encoded By</resp>
+     <name>Rebecca Baumann </name>
+    </respStmt>
+    <respStmt>
+     <resp>Edited By</resp>
+     <name>Michelle Dalmau</name>
+    </respStmt>
+   </titleStmt>
+   <extent>
+    <measure unit="words">136391</measure>
+    <measure unit="pages">464</measure>
+   </extent>
+   <publicationStmt>
+<publisher ref="https://distant-reading.net">COST Action "Distant Reading for European Literary History" (CA16204)</publisher>
+<distributor ref="https://zenodo.org/communities/eltec/">Zenodo.org</distributor><date when="2021-04-09"/>
+<availability><licence target="https://creativecommons.org/licenses/by/4.0/"/></availability>
+<ref type="doi" target="https://doi.org/10.5281/zenodo.3462435">ELTeC</ref>
+<ref type="doi" target="https://doi.org/10.5281/zenodo.4662444">ELTeC release 1.1.0</ref>
+<ref type="doi" target="https://doi.org/10.5281/zenodo.3533868">ELTeC-eng</ref>
+<ref type="doi" target="https://doi.org/10.5281/zenodo.4662490">ELTeC-eng release 1.0.1</ref>
+</publicationStmt>
+   <sourceDesc><bibl type="digitalSource"><title>Red as a rose is she : VWWP edition </title><author>Broughton,
+      Rhoda, 1840-1920</author><publisher>Digital Library Program, Indiana
+      University</publisher><pubPlace>Bloomington, IN</pubPlace><ref target="http://purl.dlib.indiana.edu/iudl/vwwp/VAB7385">VWWP</ref></bibl><bibl type="firstEdition" n="B582"><title>Red as a rose is she</title><author>Broughton, Rhoda,
+      1840-1920</author><pubPlace>London : </pubPlace><publisher>R. Bentley,
+      </publisher><date>1887</date>
+     <ref target="http://archive.org/details/redasroseissheno00brourich"/></bibl></sourceDesc>
+  </fileDesc>
+  <encodingDesc n="eltec-1">
+   <p/>
+  </encodingDesc>
+  <profileDesc>
+   <langUsage>
+    <language ident="eng">English</language>
+   </langUsage>
+   <textDesc>
+    <authorGender xmlns="http://distantreading.net/eltec/ns" key="F"/>
+    <size xmlns="http://distantreading.net/eltec/ns" key="long"/>
+    <reprintCount xmlns="http://distantreading.net/eltec/ns" key="low"/>
+    <timeSlot xmlns="http://distantreading.net/eltec/ns" key="T3"/>
+   </textDesc>
+  </profileDesc>
+  <revisionDesc>
+<change when="2021-04-09">Converted by checkUp script for new release</change>
+<change when="2020-11-14">Converted by checkUp script for new release</change>
+   <change when="2019-11-09">Checked by releaseChecker script</change>
+   <change when="2018-07-23">LB convert to ELTeC-1</change>
+   <change when="2012-08-09">#mdalmau: Fixed all the floating texts, line indentations; a few OCR
+    mistakes</change>
+   <change when="2012-08-09">#mdalmau: Re-encoded back matter after as a list (instead of
+    table)</change>
+   <change when="2012-07-29">#mdalmau: Removed $ from header; commented out relationGroup for
+    now</change>
+   <change when="2012-07-29">#mdalmau: Tweaked title page; fixed page numbering and chapter
+    headings.</change>
+   <change when="2010-11-12">#rebeccabaumann: Finished draft. </change>
+   <change when="2010-04-12">nicholaecline: Began encoding document.</change>
+  </revisionDesc>
+ </teiHeader>
+ <text type="T3FLU">
+  <front xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <pb n="[]" xml:id="VAB7385-001"/>
+   <div type="liminal">
+    <head rend="center">RED AS A ROSE IS SHE.</head>
+   </div>
+   <pb n="[]" xml:id="VAB7385-002"/>
+   <div type="liminal">
+    <p rend="center">Esther Craven.</p>
+   </div>
+   <div type="liminal">
+    <p rend="center">London: Richard Bentley, 1870</p>
+   </div>
+   <pb n="[]" xml:id="VAB7385-003"/>
+   <div type="titlepage">
+    <p> RED AS A ROSE IS SHE. A Novel. </p>
+    <p> BY RHODA BROUGHTON, AUTHOR OF "COMETH UP AS A FLOWER," "GOOD-BYE, SWEETHEART!" "SECOND
+     THOUGHTS," ETC. </p>
+    <p> ELEVENTH EDITION.</p>
+    <p> LONDON: RICHARD BENTLEY AND SON, Publishers in Ordinary to Her Majesty the Queen. 1887. </p>
+    <p> [All Rights Reserved.] </p>
+   </div>
+   <pb n="[]" xml:id="VAB7385-004"/>
+  </front>
+  <body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pb n="17" xml:id="VAB7385-021"/>
+    <div type="chapter">
+       <head rend="center">CHAPTER III.</head>
+       <quote>
+        <l>"It is the hour when from the boughs</l>
+        <l rend="ti-2">The nightingale's high note is heard;</l>
+        <l>It is the hour when lovers' vows</l>
+        <l rend="ti-2">Seem sweet in every whispered word—"</l>
+       </quote>
+       <p>As saith that most delicious of love poems that makes us all feel immoral as we read it. It
+        is the hour when chanticleer retires to his perch in the henhouse, lowers his proud tail, sinks
+        his neck into his breast, and goes to sleep between his two fattest wives. It is the hour when
+        animal life and wild humanity retire to bed; the hour when tamed humanity sits down to dinner.
+        The more we advance in civilisation the farther back we push the boundaries of sleep and
+        forgetfulness. When we reach our highest point of culture, I suppose we shall hustle the
+        blessed, the divine Nepenthe, off the face of the earth altogether.</p>
+	</div>
+   <div type="chapter">
+    <head rend="center">CHAPTER XVI.</head>
+    <p>THE weekly clearance of mundane books has been made at Plas Berwyn; the skimp drab gowns, and
+     the ill-made frock coat, whose flaps lap over one another so painfully behind, have been
+     endured by the Misses Brandon and their brother respectively. At church has been all the
+     Brandon household: son and daughters, man-servant and maid-servant, ox and sheep, camel and
+     ass. I need hardly say that the last quartette have been introduced merely for the sake of
+     euphony, and to give a fuller rhythm to the close of the sentence. The Misses Brandon always
+     stand as stiff as pokers during the creed, with their backs to the altar. It amuses them, and
+     it does not do anybody else any harm, so why should not they, poor women? Bob truckles to the
+     Scarlet Woman; he bows, and turns his honest, serious face to the east. The service is in
+     Welsh, of which he does not understand a word. He can pick his way pretty well through the
+     prayers, however, by the help of a Welsh and English prayer book. There are several landmarks
+     that he knows, whose friendly faces beam upon him now and again when he is beginning to
+     flounder hopelessly among uncouth words of seven consonants and a vowel. These are his chief
+     finger-posts: <quote><foreign xml:lang="cy">" Gogoniant ir Tad, ac ir Mab, ac ir Yspryd
+       <pb n="159" xml:id="VAB7385-163"/> Glan;"</foreign></quote> that is, <quote>"Glory be to the
+      Father, and to the Son, and to the Holy Ghost."</quote>
+     <quote><foreign xml:lang="cy">"Gwared ni, Arglywd daionus!"</foreign></quote>
+     <quote>" Good Lord, deliver us!"</quote>
+     <quote><foreign xml:lang="cy">"Na Ladratta!" </foreign></quote>
+     <quote>"Thou shalt not steal!"</quote></p>
+   </div>
+   <pb n="235" xml:id="VAB7385-239"/>
+   <div type="chapter">
+      <head rend="center">CHAPTER XXII.</head>
+      <p>THUS the grave yawns for another victim, and having swallowed him, and a million more that
+       same day, returns to its former state of insatiable famished greed. It is a law—natural, wise,
+       and comprehensible by the feeblest understanding—that all created beings, in which there is
+       progressive life, must come forth, ripen, decay, and fall. But why, oh! why, in too many cases
+       does the decay and fall forerun the ripening? Why is so many a worm permitted to gnaw out so
+       many a closed bud's green heart? Why is the canker death allowed to pasture on so many an
+       unblown life? Why are so many little toddling children, not yet come into the heritage of
+       reason to which we are all by our human birth entitled, borne from their mother's emptied arms
+       to their small short graves? Is it, as Hartley Coleridge very nobly, whether truly or untruly,
+       said— <quote>
+        <l rend="ti-3">"God only made them for his Christ to save?"</l></quote>
+      </p>
+      <p>Very wasteful is the mighty mother, knowing that her materials are inexhaustible. And so they
+       lay Jack down in the wormy grave. <quote>
+        <l rend="ti-5">"Bear, bear him along,</l>
+        <l rend="ti-3">With his few faults shut up like dead flow'rets."</l></quote></p>
+	</div>
+  </body>
+ </text>
+</TEI>

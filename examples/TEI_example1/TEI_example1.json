@@ -1,0 +1,1159 @@
+[
+{
+"name": "?xml",
+"contents": "version=\"1.0\" encoding=\"UTF-8\"?",
+"start": 0,
+"end": 0,
+"level": 0,
+"order": 1,
+"tail": "\n    "
+},
+{
+"name": "?xml-model",
+"contents": "href=\"../../Schemas/eltec-1.rng\" type=\"application/xml\" \n            schematypens=\"http://relaxng.org/ns/structure/1.0\"?",
+"start": 0,
+"end": 0,
+"level": 0,
+"order": 2,
+"tail": "\n    "
+},
+{
+"name": "?xml-model",
+"contents": "href=\"../../Schemas/eltec-1.rng\" type=\"application/xml\" \n            schematypens=\"http://purl.oclc.org/dsdl/schematron\"?",
+"start": 0,
+"end": 0,
+"level": 0,
+"order": 3,
+"tail": "\n"
+},
+{
+"name": "title",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 8,
+"text": "Red as a rose is she : ELTeC edition",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "author",
+"contents": "ref=\"https://viaf.org/viaf/45106836/\"",
+"start": 0,
+"level": 4,
+"order": 9,
+"text": "Broughton, Rhoda (1840-1920)",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "resp",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 11,
+"text": "Encoded By",
+"end": 0,
+"tail": "\n     "
+},
+{
+"name": "name",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 12,
+"text": "Nicholae Cline.",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "respStmt",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 10,
+"text": "\n     ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "resp",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 14,
+"text": "Encoded By",
+"end": 0,
+"tail": "\n     "
+},
+{
+"name": "name",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 15,
+"text": "Rebecca Baumann ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "respStmt",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 13,
+"text": "\n     ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "resp",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 17,
+"text": "Edited By",
+"end": 0,
+"tail": "\n     "
+},
+{
+"name": "name",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 18,
+"text": "Michelle Dalmau",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "respStmt",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 16,
+"text": "\n     ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "titleStmt",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 7,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "measure",
+"contents": "unit=\"words\"",
+"start": 0,
+"level": 4,
+"order": 20,
+"text": "136391",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "measure",
+"contents": "unit=\"pages\"",
+"start": 0,
+"level": 4,
+"order": 21,
+"text": "464",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "extent",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 19,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "publisher",
+"contents": "ref=\"https://distant-reading.net\"",
+"start": 0,
+"level": 4,
+"order": 23,
+"text": "COST Action \"Distant Reading for European Literary History\" (CA16204)",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "distributor",
+"contents": "ref=\"https://zenodo.org/communities/eltec/\"",
+"start": 0,
+"level": 4,
+"order": 24,
+"text": "Zenodo.org",
+"end": 0,
+"tail": ""
+},
+{
+"name": "date",
+"contents": "when=\"2021-04-09\"/",
+"start": 0,
+"end": 0,
+"level": 4,
+"order": 25,
+"tail": "\n"
+},
+{
+"name": "licence",
+"contents": "target=\"https://creativecommons.org/licenses/by/4.0/\"/",
+"start": 0,
+"end": 0,
+"level": 5,
+"order": 27,
+"tail": ""
+},
+{
+"name": "availability",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 26,
+"text": "",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "ref",
+"contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.3462435\"",
+"start": 0,
+"level": 4,
+"order": 28,
+"text": "ELTeC",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "ref",
+"contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.4662444\"",
+"start": 0,
+"level": 4,
+"order": 29,
+"text": "ELTeC release 1.1.0",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "ref",
+"contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.3533868\"",
+"start": 0,
+"level": 4,
+"order": 30,
+"text": "ELTeC-eng",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "ref",
+"contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.4662490\"",
+"start": 0,
+"level": 4,
+"order": 31,
+"text": "ELTeC-eng release 1.0.1",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "publicationStmt",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 22,
+"text": "\n",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "title",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 34,
+"text": "Red as a rose is she : VWWP edition ",
+"end": 0,
+"tail": ""
+},
+{
+"name": "author",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 35,
+"text": "Broughton,\n      Rhoda, 1840-1920",
+"end": 0,
+"tail": ""
+},
+{
+"name": "publisher",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 36,
+"text": "Digital Library Program, Indiana\n      University",
+"end": 0,
+"tail": ""
+},
+{
+"name": "pubPlace",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 37,
+"text": "Bloomington, IN",
+"end": 0,
+"tail": ""
+},
+{
+"name": "ref",
+"contents": "target=\"http://purl.dlib.indiana.edu/iudl/vwwp/VAB7385\"",
+"start": 0,
+"level": 5,
+"order": 38,
+"text": "VWWP",
+"end": 0,
+"tail": ""
+},
+{
+"name": "bibl",
+"contents": "type=\"digitalSource\"",
+"start": 0,
+"level": 4,
+"order": 33,
+"text": "",
+"end": 0,
+"tail": ""
+},
+{
+"name": "title",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 40,
+"text": "Red as a rose is she",
+"end": 0,
+"tail": ""
+},
+{
+"name": "author",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 41,
+"text": "Broughton, Rhoda,\n      1840-1920",
+"end": 0,
+"tail": ""
+},
+{
+"name": "pubPlace",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 42,
+"text": "London : ",
+"end": 0,
+"tail": ""
+},
+{
+"name": "publisher",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 43,
+"text": "R. Bentley,\n      ",
+"end": 0,
+"tail": ""
+},
+{
+"name": "date",
+"contents": "",
+"start": 0,
+"level": 5,
+"order": 44,
+"text": "1887",
+"end": 0,
+"tail": "\n     "
+},
+{
+"name": "ref",
+"contents": "target=\"http://archive.org/details/redasroseissheno00brourich\"/",
+"start": 0,
+"end": 0,
+"level": 5,
+"order": 45,
+"tail": ""
+},
+{
+"name": "bibl",
+"contents": "type=\"firstEdition\" n=\"B582\"",
+"start": 0,
+"level": 4,
+"order": 39,
+"text": "",
+"end": 0,
+"tail": ""
+},
+{
+"name": "sourceDesc",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 32,
+"text": "",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "fileDesc",
+"contents": "",
+"start": 0,
+"level": 2,
+"order": 6,
+"text": "\n   ",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "p/",
+"contents": "",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 47,
+"tail": "\n  "
+},
+{
+"name": "encodingDesc",
+"contents": "n=\"eltec-1\"",
+"start": 0,
+"level": 2,
+"order": 46,
+"text": "\n   ",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "language",
+"contents": "ident=\"eng\"",
+"start": 0,
+"level": 4,
+"order": 50,
+"text": "English",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "langUsage",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 49,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "authorGender",
+"contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"F\"/",
+"start": 0,
+"end": 0,
+"level": 4,
+"order": 52,
+"tail": "\n    "
+},
+{
+"name": "size",
+"contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"long\"/",
+"start": 0,
+"end": 0,
+"level": 4,
+"order": 53,
+"tail": "\n    "
+},
+{
+"name": "reprintCount",
+"contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"low\"/",
+"start": 0,
+"end": 0,
+"level": 4,
+"order": 54,
+"tail": "\n    "
+},
+{
+"name": "timeSlot",
+"contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"T3\"/",
+"start": 0,
+"end": 0,
+"level": 4,
+"order": 55,
+"tail": "\n   "
+},
+{
+"name": "textDesc",
+"contents": "",
+"start": 0,
+"level": 3,
+"order": 51,
+"text": "\n    ",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "profileDesc",
+"contents": "",
+"start": 0,
+"level": 2,
+"order": 48,
+"text": "\n   ",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "change",
+"contents": "when=\"2021-04-09\"",
+"start": 0,
+"level": 3,
+"order": 57,
+"text": "Converted by checkUp script for new release",
+"end": 0,
+"tail": "\n"
+},
+{
+"name": "change",
+"contents": "when=\"2020-11-14\"",
+"start": 0,
+"level": 3,
+"order": 58,
+"text": "Converted by checkUp script for new release",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2019-11-09\"",
+"start": 0,
+"level": 3,
+"order": 59,
+"text": "Checked by releaseChecker script",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2018-07-23\"",
+"start": 0,
+"level": 3,
+"order": 60,
+"text": "LB convert to ELTeC-1",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2012-08-09\"",
+"start": 0,
+"level": 3,
+"order": 61,
+"text": "#mdalmau: Fixed all the floating texts, line indentations; a few OCR\n    mistakes",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2012-08-09\"",
+"start": 0,
+"level": 3,
+"order": 62,
+"text": "#mdalmau: Re-encoded back matter after as a list (instead of\n    table)",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2012-07-29\"",
+"start": 0,
+"level": 3,
+"order": 63,
+"text": "#mdalmau: Removed $ from header; commented out relationGroup for\n    now",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2012-07-29\"",
+"start": 0,
+"level": 3,
+"order": 64,
+"text": "#mdalmau: Tweaked title page; fixed page numbering and chapter\n    headings.",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2010-11-12\"",
+"start": 0,
+"level": 3,
+"order": 65,
+"text": "#rebeccabaumann: Finished draft. ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "change",
+"contents": "when=\"2010-04-12\"",
+"start": 0,
+"level": 3,
+"order": 66,
+"text": "nicholaecline: Began encoding document.",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "revisionDesc",
+"contents": "",
+"start": 0,
+"level": 2,
+"order": 56,
+"text": "\n",
+"end": 0,
+"tail": "\n "
+},
+{
+"name": "teiHeader",
+"contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
+"start": 0,
+"level": 1,
+"order": 5,
+"text": "\n  ",
+"end": 0,
+"tail": "\n "
+},
+{
+"name": "pb",
+"contents": "n=\"[]\" xml:id=\"VAB7385-001\"/",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 69,
+"tail": "\n   "
+},
+{
+"name": "head",
+"contents": "rend=\"center\"",
+"start": 0,
+"level": 4,
+"order": 71,
+"text": "RED AS A ROSE IS SHE.",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "div",
+"contents": "type=\"liminal\"",
+"start": 0,
+"level": 3,
+"order": 70,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "pb",
+"contents": "n=\"[]\" xml:id=\"VAB7385-002\"/",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 72,
+"tail": "\n   "
+},
+{
+"name": "p",
+"contents": "rend=\"center\"",
+"start": 0,
+"level": 4,
+"order": 74,
+"text": "Esther Craven.",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "div",
+"contents": "type=\"liminal\"",
+"start": 0,
+"level": 3,
+"order": 73,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "p",
+"contents": "rend=\"center\"",
+"start": 0,
+"level": 4,
+"order": 76,
+"text": "London: Richard Bentley, 1870",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "div",
+"contents": "type=\"liminal\"",
+"start": 0,
+"level": 3,
+"order": 75,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "pb",
+"contents": "n=\"[]\" xml:id=\"VAB7385-003\"/",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 77,
+"tail": "\n   "
+},
+{
+"name": "p",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 79,
+"text": " RED AS A ROSE IS SHE. A Novel. ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "p",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 80,
+"text": " BY RHODA BROUGHTON, AUTHOR OF \"COMETH UP AS A FLOWER,\" \"GOOD-BYE, SWEETHEART!\" \"SECOND\n     THOUGHTS,\" ETC. ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "p",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 81,
+"text": " ELEVENTH EDITION.",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "p",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 82,
+"text": " LONDON: RICHARD BENTLEY AND SON, Publishers in Ordinary to Her Majesty the Queen. 1887. ",
+"end": 0,
+"tail": "\n    "
+},
+{
+"name": "p",
+"contents": "",
+"start": 0,
+"level": 4,
+"order": 83,
+"text": " [All Rights Reserved.] ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "div",
+"contents": "type=\"titlepage\"",
+"start": 0,
+"level": 3,
+"order": 78,
+"text": "\n    ",
+"end": 0,
+"tail": "\n   "
+},
+{
+"name": "pb",
+"contents": "n=\"[]\" xml:id=\"VAB7385-004\"/",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 84,
+"tail": "\n  "
+},
+{
+"name": "front",
+"contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
+"start": 0,
+"level": 2,
+"order": 68,
+"text": "\n   ",
+"end": 0,
+"tail": "\n  "
+},
+{
+"name": "pb",
+"contents": "n=\"17\" xml:id=\"VAB7385-021\"/",
+"start": 0,
+"end": 0,
+"level": 3,
+"order": 86,
+"tail": "\n    "
+},
+{
+"name": "head",
+"contents": "rend=\"center\"",
+"start": 0,
+"level": 4,
+"order": 88,
+"skip": 1,
+"end": 14,
+"cut": 1,
+"tail": "\n       "
+},
+{
+"name": "l",
+"contents": "",
+"start": 24,
+"level": 5,
+"order": 90,
+"skip": 1,
+"end": 62,
+"cut": 1
+},
+{
+"name": "l",
+"contents": "rend=\"ti-2\"",
+"start": 71,
+"level": 5,
+"order": 91,
+"skip": 1,
+"end": 110,
+"cut": 1
+},
+{
+"name": "l",
+"contents": "",
+"start": 119,
+"level": 5,
+"order": 92,
+"skip": 1,
+"end": 153,
+"cut": 1
+},
+{
+"name": "l",
+"contents": "rend=\"ti-2\"",
+"start": 162,
+"level": 5,
+"order": 93,
+"skip": 1,
+"end": 200,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 14,
+"level": 4,
+"order": 89,
+"skip": 1,
+"end": 209,
+"cut": 1,
+"tail": "\n       "
+},
+{
+"name": "p",
+"contents": "",
+"start": 209,
+"level": 4,
+"order": 94,
+"skip": 1,
+"end": 882,
+"cut": 1,
+"tail": "\n\t"
+},
+{
+"name": "div",
+"contents": "type=\"chapter\"",
+"start": 0,
+"level": 3,
+"order": 87,
+"text": "\n       ",
+"end": 882,
+"tail": "\n   "
+},
+{
+"name": "head",
+"contents": "rend=\"center\"",
+"start": 882,
+"level": 4,
+"order": 96,
+"skip": 1,
+"end": 896,
+"cut": 1,
+"tail": "\n    "
+},
+{
+"name": "pb",
+"contents": "n=\"159\" xml:id=\"VAB7385-163\"/",
+"start": 2169,
+"end": 2169,
+"level": 7,
+"order": 100,
+"tail": " Glan;\""
+},
+{
+"name": "foreign",
+"contents": "xml:lang=\"cy\"",
+"start": 2169,
+"level": 6,
+"order": 99,
+"text": "\" Gogoniant ir Tad, ac ir Mab, ac ir Yspryd\n       ",
+"end": 2169
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2168,
+"level": 5,
+"order": 98,
+"skip": 1,
+"end": 2170,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2180,
+"level": 5,
+"order": 101,
+"skip": 1,
+"end": 2252,
+"cut": 1
+},
+{
+"name": "foreign",
+"contents": "xml:lang=\"cy\"",
+"start": 2259,
+"level": 6,
+"order": 103,
+"text": "\"Gwared ni, Arglywd daionus!\"",
+"end": 2259
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2258,
+"level": 5,
+"order": 102,
+"skip": 1,
+"end": 2260,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2266,
+"level": 5,
+"order": 104,
+"skip": 1,
+"end": 2293,
+"cut": 1
+},
+{
+"name": "foreign",
+"contents": "xml:lang=\"cy\"",
+"start": 2300,
+"level": 6,
+"order": 106,
+"text": "\"Na Ladratta!\" ",
+"end": 2300
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2299,
+"level": 5,
+"order": 105,
+"skip": 1,
+"end": 2301,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 2307,
+"level": 5,
+"order": 107,
+"skip": 1,
+"end": 2332,
+"cut": 1
+},
+{
+"name": "p",
+"contents": "",
+"start": 896,
+"level": 4,
+"order": 97,
+"skip": 1,
+"end": 2333,
+"cut": 1,
+"tail": "\n   "
+},
+{
+"name": "div",
+"contents": "type=\"chapter\"",
+"start": 882,
+"level": 3,
+"order": 95,
+"text": "\n    ",
+"end": 2333,
+"tail": "\n   "
+},
+{
+"name": "pb",
+"contents": "n=\"235\" xml:id=\"VAB7385-239\"/",
+"start": 2333,
+"end": 2333,
+"level": 3,
+"order": 108,
+"tail": "\n   "
+},
+{
+"name": "head",
+"contents": "rend=\"center\"",
+"start": 2333,
+"level": 4,
+"order": 110,
+"skip": 1,
+"end": 2348,
+"cut": 1,
+"tail": "\n      "
+},
+{
+"name": "l",
+"contents": "rend=\"ti-3\"",
+"start": 3264,
+"level": 6,
+"order": 113,
+"skip": 1,
+"end": 3310,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 3254,
+"level": 5,
+"order": 112,
+"skip": 1,
+"end": 3311,
+"cut": 1
+},
+{
+"name": "p",
+"contents": "",
+"start": 2348,
+"level": 4,
+"order": 111,
+"skip": 1,
+"end": 3319,
+"cut": 1,
+"tail": "\n      "
+},
+{
+"name": "l",
+"contents": "rend=\"ti-5\"",
+"start": 3465,
+"level": 6,
+"order": 116,
+"skip": 1,
+"end": 3489,
+"cut": 1
+},
+{
+"name": "l",
+"contents": "rend=\"ti-3\"",
+"start": 3498,
+"level": 6,
+"order": 117,
+"skip": 1,
+"end": 3549,
+"cut": 1
+},
+{
+"name": "quote",
+"contents": "",
+"start": 3455,
+"level": 5,
+"order": 115,
+"skip": 1,
+"end": 3550,
+"cut": 1
+},
+{
+"name": "p",
+"contents": "",
+"start": 3319,
+"level": 4,
+"order": 114,
+"skip": 1,
+"end": 3551,
+"cut": 1,
+"tail": "\n\t"
+},
+{
+"name": "div",
+"contents": "type=\"chapter\"",
+"start": 2333,
+"level": 3,
+"order": 109,
+"text": "\n      ",
+"end": 3551,
+"tail": "\n  "
+},
+{
+"name": "body",
+"contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
+"start": 0,
+"level": 2,
+"order": 85,
+"text": "\n    ",
+"end": 3551,
+"tail": "\n "
+},
+{
+"name": "text",
+"contents": "type=\"T3FLU\"",
+"start": 0,
+"level": 1,
+"order": 67,
+"text": "\n  ",
+"end": 3551,
+"tail": "\n"
+},
+{
+"name": "TEI",
+"contents": "xmlns=\"http://www.tei-c.org/ns/1.0\" xmlns:e=\"http://distantreading.net/ns\" xml:id=\"ENG18871\" xml:lang=\"en\"",
+"start": 0,
+"level": 0,
+"order": 4,
+"text": "\n ",
+"end": 3551,
+"tail": ""
+}
+]
