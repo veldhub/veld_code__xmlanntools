@@ -16,13 +16,13 @@ In this situation, we should run `xml2standoff` with the text elements (option `
 xml2standoff -t p,head,quote,l -e teiHeader,front,foreign TEI_example1.xml
 ```
 
-We get the extracted plain text file `TEI_example.txt` and a separate standoff description of the original XML markup in the file `TEI_example.json`. We can now pass the former file (option `-f`) to the tagger, e.g. to the UD Pipe using an appropriate language model (option `-m`), and send the resulting output to the file `TEI_example.conllu`:
+We get the extracted plain text file `TEI_example.txt` and a separate standoff description of the original XML mark-up in the file `TEI_example.json`. We can now pass the former file (option `-f`) to the tagger, e.g. to the UD Pipe using an appropriate language model (option `-m`), and send the resulting output to the file `TEI_example.conllu`:
 
 ```
 tag_ud -f TEI_example1.txt -m english-ewt-ud-2.15-241121 >TEI_example1.conllu
 ```
 
-Now, we can convert the resulting analysis from `TEI_example1.conllu` into another standoff XML-type markup by matching it to the original `TEI_example1.txt`. This can be done by the script `ann2standoff` using its CoNLL-U parser, i.e. the profile `conllu` (option `-p`):
+Now, we can convert the resulting analysis from `TEI_example1.conllu` into another standoff XML-type mark-up by matching it to the original `TEI_example1.txt`. This can be done by the script `ann2standoff` using its CoNLL-U parser, i.e. the profile `conllu` (option `-p`):
 
 ```
 ann2standoff -p conllu TEI_example1.conllu
@@ -30,13 +30,13 @@ ann2standoff -p conllu TEI_example1.conllu
 
 This will create the `TEI_example1.ann.json` file (if the results from the tagger can be successfully matched with the plain text file).
 
-In the next step, we can construct a new annotated XML by merging both the original standoff XML markup and the standoff annotation produced by the tagger/analyzer with the plain text contents:
+In the next step, we can construct a new annotated XML by merging both the original standoff XML mark-up and the standoff annotation produced by the tagger/analyzer with the plain text contents:
 
 ```
 standoff2xml TEI_example1.txt
 ```
 
-The resulting file will be named `TEI_example1.ann.xml` and in addition to the original XML markup, it will contain sentences delimited by the elements `<s>` and analyzed tokens enclosed within the elements `<w>` with attributes containing the analysis produced by the tagger/analyzer. Any subtoken annotation (resulting from the two level tokenization of UD) will be merged as described in the main `README.md`.
+The resulting file will be named `TEI_example1.ann.xml` and in addition to the original XML mark-up, it will contain sentences delimited by the elements `<s>` and analyzed tokens enclosed within the elements `<w>` with attributes containing the analysis produced by the tagger/analyzer. Any subtoken annotation (resulting from the two level tokenization of UD) will be merged as described in the main `README.md`.
 
 In case we need to index the final annotated XML text file by a search engine using the vertical format as input (CQP/Manatee), we may use the supplementary script `xml2vrt` to create the vertical format containing just the relevant contents from the annotated XML file. In this case we would probably only include (option `-i`) the `text` element (avoiding the `teiHeader` completely) and also exclude (option `-e`) the whole `front`-matter. By using the preconfigured profile (option `-p`) `conllu`, the created vertical will have a similar structure as the CoNLL-U format, just with the ortographic "word" element placed into the first column (before the token ID) as required by the indexing engines.
 
