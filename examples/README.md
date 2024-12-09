@@ -50,8 +50,16 @@ xml2vrt -p conllu -i text -e front TEI_example1.ann.xml >TEI_example1.vrt
 
 A simple example where a whole poem (stanza) is contained in a single `<p>` element with the line break element `<lb/>` separating single verses (lines).
 
-In such case, we can also add the empty element `lb` to the list of "text elements" to enforce insertion of linebreaks:
+In such case, we can also add the empty element `lb` to the list of "text elements" (`head` and `p`) to enforce insertion of linebreaks:
 
 ```
 xml2standoff -t p,head,lb Simple_poetry1.xml
+```
+
+The rest of the process will be very similar as above, just simpler:
+
+```
+tag_ud -f Simple_poetry1.txt -m czech-pdt-ud-2.15-241121 >Simple_poetry1.conllu
+ann2standoff -p conllu Simple_poetry1.conllu
+standoff2xml Simple_poetry1.txt
 ```
