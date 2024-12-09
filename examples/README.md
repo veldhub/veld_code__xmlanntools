@@ -45,3 +45,13 @@ xml2vrt -p conllu -i text -e front TEI_example1.ann.xml >TEI_example1.vrt
 ```
 
  All other changes required by the CQP/Manatee engines are applied as described in the main `README.md`. Fragments of text which were excluded from the annotation/analysis by the tagger (i.e. those within the `<foreign>` elements) are kept as untokenized strings on separate lines: from the perspective of the search engine they will appear as long, single string "tokens" without further annotation/analysis - they won't be thus easilly searchable (by single words), but they will be kept in the output of the concordances. If desired, they could be completely discarded from the vertical using the option `-df`.
+
+## Simple_poetry1
+
+A simple example where a whole poem (stanza) is contained in a single `<p>` element with the line break element `<lb/>` separating single verses (lines).
+
+In such case, we can also add the empty element `lb` to the list of "text elements" to enforce insertion of linebreaks:
+
+```
+xml2standoff -t p,head,lb Simple_poetry1.xml
+```
