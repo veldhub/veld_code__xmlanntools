@@ -31,7 +31,7 @@ x-veld:
         optional: true
 
 services:
-  ann2standoff:
+  veld_ann2standoff:
     build: .
     volumes:
       - ./:/veld/code/

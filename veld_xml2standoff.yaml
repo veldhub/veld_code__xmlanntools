@@ -32,7 +32,7 @@ x-veld:
         optional: true
 
 services:
-  xml2standoff:
+  veld_xml2standoff:
     build: .
     volumes:
       - ./:/veld/code/

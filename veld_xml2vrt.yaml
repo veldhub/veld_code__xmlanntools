@@ -61,7 +61,7 @@ x-veld:
         optional: true
 
 services:
-  xml2vrt:
+  veld_xml2vrt:
     build: .
     volumes:
       - ./:/veld/code/

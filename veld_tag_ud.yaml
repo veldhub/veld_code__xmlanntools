@@ -31,7 +31,7 @@ x-veld:
         optional: true
 
 services:
-  tag_ud:
+  veld_tag_ud:
     build: .
     volumes:
       - ./:/veld/code/
