@@ -234,9 +234,9 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betw
                 xc['end'] = t['end']
                 inbuffer.append(xc)
                 # b) rest to be cut and restarted after the new span
-                if not no_betweenspan_elements:
-                    x['start'] = t['end']
-                    restartspans.append(x)
+                #if not no_betweenspan_elements:
+                x['start'] = t['end']
+                restartspans.append(x)
                 openspans.append(x)
             xptr += 1
 
