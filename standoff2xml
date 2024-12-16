@@ -141,7 +141,7 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betw
     allowmerge : bool
         allow merge of spans with the same name, start and end position (Default: False)
     no_betweenspan_elements : bool
-        do NOT restart broken elements between spans of the new annotation (usually pointless highlighting between sentences)
+        do NOT restart broken elements between spans of the new annotation if they end within the following span again (usually pointless highlighting between sentences)
 
     Returns:
     --------
@@ -160,9 +160,19 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betw
     # heap of open spans
     openspans = []
 
+    restartspans = []
     order = 0
     # iterate over the new annotation spans
     for t in newann:
+
+        # reopen spans that started inside the previous new span and were therefore broken
+        for x in restartspans:
+            order += 1
+            x['order'] = order
+            if not no_betweenspan_elements or x['end']>=t['end']:
+                # really append only if it does not end within the current new span again (or if requested)
+                outann.append(x)
+
         restartspans = []
         inbuffer = []
         lastlevel = 0
@@ -234,10 +244,8 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betw
                 xc['end'] = t['end']
                 inbuffer.append(xc)
                 # b) rest to be cut and restarted after the new span
-                if not (no_betweenspan_elements and x['level']>t['level']):
-                    # do not restart deeper level elements between sentences (unless requested)
-                    x['start'] = t['end']
-                    restartspans.append(x)
+                x['start'] = t['end']
+                restartspans.append(x)
                 openspans.append(x)
             xptr += 1
 
@@ -256,12 +264,6 @@ def merge_annotations(origann, newann, breakable=None, allowmerge=False, no_betw
             order += 1
             ispan['order'] = order
             outann.append(ispan)
-
-        # E) reopen spans that started inside the new span
-        for x in restartspans:
-            order += 1
-            x['order'] = order
-            outann.append(x)
 
     return outann
 
