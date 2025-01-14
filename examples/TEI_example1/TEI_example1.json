@@ -2,7 +2,6 @@
 {
 "name": "?xml",
 "contents": "version=\"1.0\" encoding=\"UTF-8\"?",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 0,
@@ -12,7 +11,6 @@
 {
 "name": "?xml-model",
 "contents": "href=\"../../Schemas/eltec-1.rng\" type=\"application/xml\" \n            schematypens=\"http://relaxng.org/ns/structure/1.0\"?",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 0,
@@ -22,7 +20,6 @@
 {
 "name": "?xml-model",
 "contents": "href=\"../../Schemas/eltec-1.rng\" type=\"application/xml\" \n            schematypens=\"http://purl.oclc.org/dsdl/schematron\"?",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 0,
@@ -32,7 +29,6 @@
 {
 "name": "title",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 8,
@@ -43,7 +39,6 @@
 {
 "name": "author",
 "contents": "ref=\"https://viaf.org/viaf/45106836/\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 9,
@@ -54,7 +49,6 @@
 {
 "name": "resp",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 11,
@@ -65,7 +59,6 @@
 {
 "name": "name",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 12,
@@ -76,7 +69,6 @@
 {
 "name": "respStmt",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 10,
@@ -87,7 +79,6 @@
 {
 "name": "resp",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 14,
@@ -98,7 +89,6 @@
 {
 "name": "name",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 15,
@@ -109,7 +99,6 @@
 {
 "name": "respStmt",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 13,
@@ -120,7 +109,6 @@
 {
 "name": "resp",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 17,
@@ -131,7 +119,6 @@
 {
 "name": "name",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 18,
@@ -142,7 +129,6 @@
 {
 "name": "respStmt",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 16,
@@ -153,7 +139,6 @@
 {
 "name": "titleStmt",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 7,
@@ -164,7 +149,6 @@
 {
 "name": "measure",
 "contents": "unit=\"words\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 20,
@@ -175,7 +159,6 @@
 {
 "name": "measure",
 "contents": "unit=\"pages\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 21,
@@ -186,7 +169,6 @@
 {
 "name": "extent",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 19,
@@ -197,7 +179,6 @@
 {
 "name": "publisher",
 "contents": "ref=\"https://distant-reading.net\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 23,
@@ -208,7 +189,6 @@
 {
 "name": "distributor",
 "contents": "ref=\"https://zenodo.org/communities/eltec/\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 24,
@@ -219,7 +199,6 @@
 {
 "name": "date",
 "contents": "when=\"2021-04-09\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 4,
@@ -229,7 +208,6 @@
 {
 "name": "licence",
 "contents": "target=\"https://creativecommons.org/licenses/by/4.0/\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 5,
@@ -239,7 +217,6 @@
 {
 "name": "availability",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 26,
@@ -250,7 +227,6 @@
 {
 "name": "ref",
 "contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.3462435\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 28,
@@ -261,7 +237,6 @@
 {
 "name": "ref",
 "contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.4662444\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 29,
@@ -272,7 +247,6 @@
 {
 "name": "ref",
 "contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.3533868\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 30,
@@ -283,7 +257,6 @@
 {
 "name": "ref",
 "contents": "type=\"doi\" target=\"https://doi.org/10.5281/zenodo.4662490\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 31,
@@ -294,7 +267,6 @@
 {
 "name": "publicationStmt",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 22,
@@ -305,7 +277,6 @@
 {
 "name": "title",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 34,
@@ -316,7 +287,6 @@
 {
 "name": "author",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 35,
@@ -327,7 +297,6 @@
 {
 "name": "publisher",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 36,
@@ -338,7 +307,6 @@
 {
 "name": "pubPlace",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 37,
@@ -349,7 +317,6 @@
 {
 "name": "ref",
 "contents": "target=\"http://purl.dlib.indiana.edu/iudl/vwwp/VAB7385\"",
-"csep": " ",
 "start": 0,
 "level": 5,
 "order": 38,
@@ -360,7 +327,6 @@
 {
 "name": "bibl",
 "contents": "type=\"digitalSource\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 33,
@@ -371,7 +337,6 @@
 {
 "name": "title",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 40,
@@ -382,7 +347,6 @@
 {
 "name": "author",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 41,
@@ -393,7 +357,6 @@
 {
 "name": "pubPlace",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 42,
@@ -404,7 +367,6 @@
 {
 "name": "publisher",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 43,
@@ -415,7 +377,6 @@
 {
 "name": "date",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 5,
 "order": 44,
@@ -426,7 +387,6 @@
 {
 "name": "ref",
 "contents": "target=\"http://archive.org/details/redasroseissheno00brourich\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 5,
@@ -436,7 +396,6 @@
 {
 "name": "bibl",
 "contents": "type=\"firstEdition\" n=\"B582\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 39,
@@ -447,7 +406,6 @@
 {
 "name": "sourceDesc",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 32,
@@ -458,7 +416,6 @@
 {
 "name": "fileDesc",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 2,
 "order": 6,
@@ -469,7 +426,6 @@
 {
 "name": "p/",
 "contents": "",
-"csep": "",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -479,7 +435,6 @@
 {
 "name": "encodingDesc",
 "contents": "n=\"eltec-1\"",
-"csep": " ",
 "start": 0,
 "level": 2,
 "order": 46,
@@ -490,7 +445,6 @@
 {
 "name": "language",
 "contents": "ident=\"eng\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 50,
@@ -501,7 +455,6 @@
 {
 "name": "langUsage",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 49,
@@ -512,7 +465,6 @@
 {
 "name": "authorGender",
 "contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"F\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 4,
@@ -522,7 +474,6 @@
 {
 "name": "size",
 "contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"long\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 4,
@@ -532,7 +483,6 @@
 {
 "name": "reprintCount",
 "contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"low\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 4,
@@ -542,7 +492,6 @@
 {
 "name": "timeSlot",
 "contents": "xmlns=\"http://distantreading.net/eltec/ns\" key=\"T3\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 4,
@@ -552,7 +501,6 @@
 {
 "name": "textDesc",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 3,
 "order": 51,
@@ -563,7 +511,6 @@
 {
 "name": "profileDesc",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 2,
 "order": 48,
@@ -574,7 +521,6 @@
 {
 "name": "change",
 "contents": "when=\"2021-04-09\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 57,
@@ -585,7 +531,6 @@
 {
 "name": "change",
 "contents": "when=\"2020-11-14\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 58,
@@ -596,7 +541,6 @@
 {
 "name": "change",
 "contents": "when=\"2019-11-09\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 59,
@@ -607,7 +551,6 @@
 {
 "name": "change",
 "contents": "when=\"2018-07-23\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 60,
@@ -618,7 +561,6 @@
 {
 "name": "change",
 "contents": "when=\"2012-08-09\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 61,
@@ -629,7 +571,6 @@
 {
 "name": "change",
 "contents": "when=\"2012-08-09\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 62,
@@ -640,7 +581,6 @@
 {
 "name": "change",
 "contents": "when=\"2012-07-29\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 63,
@@ -651,7 +591,6 @@
 {
 "name": "change",
 "contents": "when=\"2012-07-29\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 64,
@@ -662,7 +601,6 @@
 {
 "name": "change",
 "contents": "when=\"2010-11-12\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 65,
@@ -673,7 +611,6 @@
 {
 "name": "change",
 "contents": "when=\"2010-04-12\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 66,
@@ -684,7 +621,6 @@
 {
 "name": "revisionDesc",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 2,
 "order": 56,
@@ -695,7 +631,6 @@
 {
 "name": "teiHeader",
 "contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
-"csep": " ",
 "start": 0,
 "level": 1,
 "order": 5,
@@ -706,7 +641,6 @@
 {
 "name": "pb",
 "contents": "n=\"[]\" xml:id=\"VAB7385-001\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -716,7 +650,6 @@
 {
 "name": "head",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 71,
@@ -727,7 +660,6 @@
 {
 "name": "div",
 "contents": "type=\"liminal\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 70,
@@ -738,7 +670,6 @@
 {
 "name": "pb",
 "contents": "n=\"[]\" xml:id=\"VAB7385-002\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -748,7 +679,6 @@
 {
 "name": "p",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 74,
@@ -759,7 +689,6 @@
 {
 "name": "div",
 "contents": "type=\"liminal\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 73,
@@ -770,7 +699,6 @@
 {
 "name": "p",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 76,
@@ -781,7 +709,6 @@
 {
 "name": "div",
 "contents": "type=\"liminal\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 75,
@@ -792,7 +719,6 @@
 {
 "name": "pb",
 "contents": "n=\"[]\" xml:id=\"VAB7385-003\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -802,7 +728,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 79,
@@ -813,7 +738,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 80,
@@ -824,7 +748,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 81,
@@ -835,7 +758,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 82,
@@ -846,7 +768,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 0,
 "level": 4,
 "order": 83,
@@ -857,7 +778,6 @@
 {
 "name": "div",
 "contents": "type=\"titlepage\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 78,
@@ -868,7 +788,6 @@
 {
 "name": "pb",
 "contents": "n=\"[]\" xml:id=\"VAB7385-004\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -878,7 +797,6 @@
 {
 "name": "front",
 "contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
-"csep": " ",
 "start": 0,
 "level": 2,
 "order": 68,
@@ -889,7 +807,6 @@
 {
 "name": "pb",
 "contents": "n=\"17\" xml:id=\"VAB7385-021\"/",
-"csep": " ",
 "start": 0,
 "end": 0,
 "level": 3,
@@ -899,7 +816,6 @@
 {
 "name": "head",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 0,
 "level": 4,
 "order": 88,
@@ -911,7 +827,6 @@
 {
 "name": "l",
 "contents": "",
-"csep": "",
 "start": 24,
 "level": 5,
 "order": 90,
@@ -922,7 +837,6 @@
 {
 "name": "l",
 "contents": "rend=\"ti-2\"",
-"csep": " ",
 "start": 71,
 "level": 5,
 "order": 91,
@@ -933,7 +847,6 @@
 {
 "name": "l",
 "contents": "",
-"csep": "",
 "start": 119,
 "level": 5,
 "order": 92,
@@ -944,7 +857,6 @@
 {
 "name": "l",
 "contents": "rend=\"ti-2\"",
-"csep": " ",
 "start": 162,
 "level": 5,
 "order": 93,
@@ -955,7 +867,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 14,
 "level": 4,
 "order": 89,
@@ -967,7 +878,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 209,
 "level": 4,
 "order": 94,
@@ -979,7 +889,6 @@
 {
 "name": "div",
 "contents": "type=\"chapter\"",
-"csep": " ",
 "start": 0,
 "level": 3,
 "order": 87,
@@ -990,7 +899,6 @@
 {
 "name": "head",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 882,
 "level": 4,
 "order": 96,
@@ -1002,7 +910,6 @@
 {
 "name": "pb",
 "contents": "n=\"159\" xml:id=\"VAB7385-163\"/",
-"csep": " ",
 "start": 2169,
 "end": 2169,
 "level": 7,
@@ -1012,7 +919,6 @@
 {
 "name": "foreign",
 "contents": "xml:lang=\"cy\"",
-"csep": " ",
 "start": 2169,
 "level": 6,
 "order": 99,
@@ -1022,7 +928,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2168,
 "level": 5,
 "order": 98,
@@ -1033,7 +938,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2180,
 "level": 5,
 "order": 101,
@@ -1044,7 +948,6 @@
 {
 "name": "foreign",
 "contents": "xml:lang=\"cy\"",
-"csep": " ",
 "start": 2259,
 "level": 6,
 "order": 103,
@@ -1054,7 +957,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2258,
 "level": 5,
 "order": 102,
@@ -1065,7 +967,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2266,
 "level": 5,
 "order": 104,
@@ -1076,7 +977,6 @@
 {
 "name": "foreign",
 "contents": "xml:lang=\"cy\"",
-"csep": " ",
 "start": 2300,
 "level": 6,
 "order": 106,
@@ -1086,7 +986,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2299,
 "level": 5,
 "order": 105,
@@ -1097,7 +996,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 2307,
 "level": 5,
 "order": 107,
@@ -1108,7 +1006,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 896,
 "level": 4,
 "order": 97,
@@ -1120,7 +1017,6 @@
 {
 "name": "div",
 "contents": "type=\"chapter\"",
-"csep": " ",
 "start": 882,
 "level": 3,
 "order": 95,
@@ -1131,7 +1027,6 @@
 {
 "name": "pb",
 "contents": "n=\"235\" xml:id=\"VAB7385-239\"/",
-"csep": " ",
 "start": 2333,
 "end": 2333,
 "level": 3,
@@ -1141,7 +1036,6 @@
 {
 "name": "head",
 "contents": "rend=\"center\"",
-"csep": " ",
 "start": 2333,
 "level": 4,
 "order": 110,
@@ -1153,7 +1047,6 @@
 {
 "name": "l",
 "contents": "rend=\"ti-3\"",
-"csep": " ",
 "start": 3264,
 "level": 6,
 "order": 113,
@@ -1164,7 +1057,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 3254,
 "level": 5,
 "order": 112,
@@ -1175,7 +1067,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 2348,
 "level": 4,
 "order": 111,
@@ -1187,7 +1078,6 @@
 {
 "name": "l",
 "contents": "rend=\"ti-5\"",
-"csep": " ",
 "start": 3465,
 "level": 6,
 "order": 116,
@@ -1198,7 +1088,6 @@
 {
 "name": "l",
 "contents": "rend=\"ti-3\"",
-"csep": " ",
 "start": 3498,
 "level": 6,
 "order": 117,
@@ -1209,7 +1098,6 @@
 {
 "name": "quote",
 "contents": "",
-"csep": "",
 "start": 3455,
 "level": 5,
 "order": 115,
@@ -1220,7 +1108,6 @@
 {
 "name": "p",
 "contents": "",
-"csep": "",
 "start": 3319,
 "level": 4,
 "order": 114,
@@ -1232,7 +1119,6 @@
 {
 "name": "div",
 "contents": "type=\"chapter\"",
-"csep": " ",
 "start": 2333,
 "level": 3,
 "order": 109,
@@ -1243,7 +1129,6 @@
 {
 "name": "body",
 "contents": "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
-"csep": " ",
 "start": 0,
 "level": 2,
 "order": 85,
@@ -1254,7 +1139,6 @@
 {
 "name": "text",
 "contents": "type=\"T3FLU\"",
-"csep": " ",
 "start": 0,
 "level": 1,
 "order": 67,
@@ -1265,7 +1149,6 @@
 {
 "name": "TEI",
 "contents": "xmlns=\"http://www.tei-c.org/ns/1.0\" xmlns:e=\"http://distantreading.net/ns\" xml:id=\"ENG18871\" xml:lang=\"en\"",
-"csep": " ",
 "start": 0,
 "level": 0,
 "order": 4,
