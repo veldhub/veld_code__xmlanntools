@@ -211,8 +211,10 @@ def split_xml(text, txtelements=None, excludes=None, keep_linebreaks=False):
                 order += 1
                 if ename.startswith("?") or ename.startswith("!") or ename.endswith("/") or econtents.endswith("/"):
                     # zero-span: empty tags, comments and proc. instructions have no end tag and can be inserted into the buffer immediately
-                    eldesc = {"name": ename, "contents": econtents, "csep": csep,
+                    eldesc = {"name": ename, "contents": econtents,
                               "start": charcnt, "end": charcnt, "level": slevel, 'order': order}
+                    if csep and csep != ' ':
+                        eldesc['csep'] = csep
                     # should the empty element add a provisional line break?
                     if txtelements is not None and exclude_depth == 0 and ename.endswith("/") and ename[:-1] in txtelements:
                         charcnt += 1
@@ -223,8 +225,10 @@ def split_xml(text, txtelements=None, excludes=None, keep_linebreaks=False):
                         text_store = (eldesc, 'tail')
                 else:
                     # pair start tags: add description to the heap to be inserted into the buffer when a matching end tag is found 
-                    eldesc = {"name": ename, "contents": econtents, "csep": csep,
+                    eldesc = {"name": ename, "contents": econtents,
                               "start": charcnt, "level": slevel, 'order': order}
+                    if csep and csep != ' ':
+                        eldesc['csep'] = csep
                     # if included elements are defined, check whether we shall extract the text contents or store/keep them within the mark-up description
                     if txtelements is not None:
                         if ename in txtelements:
