@@ -1,12 +1,69 @@
 # XML annotation tools (veldified)
 
-### note on veldification
+## note on veldification
 
-This repo is a fork of https://github.com/czcorpus/xmlanntools . All the code is identical to the source repo, except for veldified wrappers of the scripts which have been added. They are exemplified in this chain repo: https://github.com/veldhub/veld_chain__demo_xmlanntools 
+This repo is a fork of https://github.com/czcorpus/xmlanntools . All the code is identical to the source repo, except for [veldified wrappers](https://zenodo.org/records/13322913) of the scripts which have been added. They are exemplified in this chain repo: https://github.com/veldhub/veld_chain__demo_xmlanntools 
 
-Please see individual veld yaml files for details and consult with the upstream documentation. 
+## requirements
 
-# original
+- git
+- docker compose (note: older docker compose versions require running `docker-compose` instead of 
+  `docker compose`)
+
+## how to use
+
+A code veld may be integrated into a chain veld, or used directly by adapting the configuration 
+within its yaml file and using the template folders provided in this repo. Open the respective veld 
+yaml file for more information.
+
+Run a veld with:
+```
+docker compose -f <VELD_NAME>.yaml up
+```
+
+## contained code velds
+
+**[./veld_ann2standoff.yaml](./veld_ann2standoff.yaml)** 
+
+veldified encapsulation of [ann2standoff](#ann2standoff)
+
+```
+docker compose -f veld_ann2standoff.yaml up
+```
+
+**[./veld_standoff2xml.yaml](./veld_standoff2xml.yaml)** 
+
+veldified encapsulation of [standoff2xml](#standoff2xml)
+
+```
+docker compose -f veld_standoff2xml.yaml up
+```
+
+**[./veld_tag_ud.yaml](./veld_tag_ud.yaml)** 
+
+veldified encapsulation of [tag_ud](#tag_ud)
+
+```
+docker compose -f veld_tag_ud.yaml up
+```
+
+**[./veld_xml2standoff.yaml](./veld_xml2standoff.yaml)** 
+
+veldified encapsulation of [xml2standoff](#xml2standoff)
+
+```
+docker compose -f veld_xml2standoff.yaml up
+```
+
+**[./veld_xml2vrt.yaml](./veld_xml2vrt.yaml)** 
+
+veldified encapsulation of [xml2vrt](#xml2vrt)
+
+```
+docker compose -f veld_xml2vrt.yaml up
+```
+
+# original xmlanntools README from here
 
 ## The objectives
 
