@@ -38,7 +38,7 @@ services:
       - ./:/veld/code/
       - ./data/xml2standoff/in/:/veld/input/
       - ./data/xml2standoff/out/:/veld/output/
-    command: ./veld_xml2standoff.sh
+    command: bash /veld/code/./veld_xml2standoff.sh
     environment:
       in_xml_file: null
       out_txt_file: null

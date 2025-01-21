@@ -68,7 +68,7 @@ services:
       - ./data/xml2vrt/in/data/:/veld/input/data/
       - ./data/xml2vrt/in/config/:/veld/input/config/
       - ./data/xml2vrt/out/:/veld/output/
-    command: ./veld_xml2vrt.sh
+    command: bash /veld/code/veld_xml2vrt.sh
     environment:
       in_ann_xml_file: null
       in_ann2standoff_ini_file: null

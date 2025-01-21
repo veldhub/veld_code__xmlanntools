@@ -38,7 +38,7 @@ services:
       - ./data/ann2standoff/in/data/:/veld/input/data/
       - ./data/ann2standoff/in/config/:/veld/input/config/
       - ./data/ann2standoff/out/:/veld/output/
-    command: ./veld_ann2standoff.sh
+    command: bash /veld/code/veld_ann2standoff.sh
     environment:
       in_conllu_file: null
       in_txt_file: null

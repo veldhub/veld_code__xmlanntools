@@ -37,7 +37,7 @@ services:
       - ./:/veld/code/
       - ./data/tag_ud/in/:/veld/input/
       - ./data/tag_ud/out/:/veld/output/
-    command: ./veld_tag_ud.sh
+    command: bash /veld/code/veld_tag_ud.sh
     environment:
       in_txt_file: null
       out_conllu_file: null
